@@ -564,25 +564,13 @@ static void menu_select(){
 			btn_onOnePress(KEY2, NULL);
 			btn_onLongPress(KEY1, NULL);
 			btn_onLongPress(KEY2, return_to_menu);
-			if (badge_cfg.ble_security) {
-				uint16_t auth_code = tmos_rand() % 10000;
-				legacy_set_auth_code(auth_code);
-				ble_enable_advertise();
+			ble_enable_advertise();
+			start_ble_animation();
 		#if HW_KEY_COUNT == 4
-				auxbtn_onOnePress(KEY4, bt_pairing_bypass);
+			auxbtn_onOnePress(KEY4, return_to_menu);
 		#else
-				btn_onLongPress(KEY1, bt_pairing_bypass);
+			btn_onLongPress(KEY1, return_to_menu);
 		#endif
-				disp_auth_code(auth_code);
-			} else {
-				ble_enable_advertise();
-				start_ble_animation();
-		#if HW_KEY_COUNT == 4
-				auxbtn_onOnePress(KEY4, return_to_menu);
-		#else
-				btn_onLongPress(KEY1, return_to_menu);
-		#endif
-			}
 			break;
         case MENU_IDX_CLOCK:
             enter_clock_submenu();
@@ -595,6 +583,10 @@ static void menu_select(){
             break; */
         case MENU_IDX_OFF:
             mode = POWER_OFF;
+			 stop_all_animation();
+            while (isPressed(KEY1))
+                DelayMs(10);
+            DelayMs(50);
             poweroff();
             break;
     }

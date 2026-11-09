@@ -23,7 +23,7 @@ OPT = -Os
 VERSION = $(shell git describe --tags --dirty)
 VERSION_ABBR = $(shell git describe --abbrev=0 --tags 2>/dev/null || echo "unknown")
 ifeq ($(VERSION_ABBR),unknown)
-	$(warning Unable to determine version from git tags)
+$(warning Unable to determine version from git tags)
 endif
 
 #######################################
@@ -178,21 +178,14 @@ CFLAGS += -MMD -MP
 # Slot selection: A or B (default A)
 SLOT ?= A
 
-ifeq ($(SLOT), A)
-	LDSCRIPT = CH5xx_ble_firmware_library/Ld/Link_SlotA.ld
-else ifeq ($(SLOT), B)
-	LDSCRIPT = CH5xx_ble_firmware_library/Ld/Link_SlotB.ld
-else
-	$(error SLOT must be A or B)
-endif
-
-TARGET = badgemagic-ch582-slot$(SLOT)
-CFLAGS += -DTHIS_SLOT_$(SLOT)
+LDSCRIPT = CH5xx_ble_firmware_library/Ld/Link.ld
+TARGET = badgemagic-ch582
+CFLAGS += -DTHIS_SLOT_A
 
 # libraries
 LIBS = -lc -lm -lnosys \
-	./CH5xx_ble_firmware_library/StdPeriphDriver/libISP583.a \
-	./CH5xx_ble_firmware_library/BLE/LIBCH58xBLE.a \
+    ./CH5xx_ble_firmware_library/StdPeriphDriver/libISP583.a \
+    ./CH5xx_ble_firmware_library/BLE/LIBCH58xBLE.a \
 
 LIBDIR = 
 LDFLAGS = $(MCU) -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized -T $(LDSCRIPT) -nostartfiles -Xlinker --gc-sections -Wl,-Map=$(BUILD_DIR)/$(TARGET).map --specs=nano.specs $(LIBS)
@@ -226,10 +219,10 @@ $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf
 	@mkdir -pv $(dir $@)
 	$(HEX) $< $@
-	
+
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf
 	@mkdir -pv $(dir $@)
-	$(BIN) $< $@	
+	$(BIN) $< $@
 
 #######################################
 # Program
