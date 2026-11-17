@@ -1,6 +1,9 @@
-# badgemagic-firmware
+# badgemagic-firmware - ctrlVnt version
 
-Hardware details and information to build an open firmware for Bluetooth LED badges, compatible with [Badge Magic app](https://github.com/fossasia/badgemagic-app)
+This is my fork where I update the badge to my self, but I decided to share also my job!
+I worked on BadgeMagic app for the GSoC2026, so I decided to improve the firmware side of this fascinating project.
+
+Compatible app 👉️ [Badge Magic app](https://github.com/fossasia/badgemagic-app)
 
 ## Supported Hardware
 
