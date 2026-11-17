@@ -1,0 +1,417 @@
+GAS LISTING /tmp/ccS3P4Xb.s 			page 1
+
+
+   1              		.file	"font3x5.c"
+   2              		.option nopic
+   3              		.text
+   4              		.globl	font3x5
+   5              		.section	.data.font3x5,"aw"
+   6              		.align	2
+   9              	font3x5:
+  10 0000 00       		.byte	0
+  11 0001 00       		.byte	0
+  12 0002 00       		.byte	0
+  13 0003 00       		.byte	0
+  14 0004 00       		.byte	0
+  15 0005 17       		.byte	23
+  16 0006 00       		.byte	0
+  17 0007 00       		.byte	0
+  18 0008 03       		.byte	3
+  19 0009 00       		.byte	0
+  20 000a 03       		.byte	3
+  21 000b 00       		.byte	0
+  22 000c 1F       		.byte	31
+  23 000d 0A       		.byte	10
+  24 000e 1F       		.byte	31
+  25 000f 00       		.byte	0
+  26 0010 0A       		.byte	10
+  27 0011 1F       		.byte	31
+  28 0012 05       		.byte	5
+  29 0013 00       		.byte	0
+  30 0014 09       		.byte	9
+  31 0015 04       		.byte	4
+  32 0016 12       		.byte	18
+  33 0017 00       		.byte	0
+  34 0018 0A       		.byte	10
+  35 0019 15       		.byte	21
+  36 001a 0A       		.byte	10
+  37 001b 00       		.byte	0
+  38 001c 00       		.byte	0
+  39 001d 03       		.byte	3
+  40 001e 00       		.byte	0
+  41 001f 00       		.byte	0
+  42 0020 00       		.byte	0
+  43 0021 0E       		.byte	14
+  44 0022 11       		.byte	17
+  45 0023 00       		.byte	0
+  46 0024 00       		.byte	0
+  47 0025 11       		.byte	17
+  48 0026 0E       		.byte	14
+  49 0027 00       		.byte	0
+  50 0028 05       		.byte	5
+  51 0029 02       		.byte	2
+  52 002a 05       		.byte	5
+  53 002b 00       		.byte	0
+  54 002c 04       		.byte	4
+  55 002d 0E       		.byte	14
+  56 002e 04       		.byte	4
+  57 002f 00       		.byte	0
+  58 0030 00       		.byte	0
+  59 0031 10       		.byte	16
+GAS LISTING /tmp/ccS3P4Xb.s 			page 2
+
+
+  60 0032 08       		.byte	8
+  61 0033 00       		.byte	0
+  62 0034 04       		.byte	4
+  63 0035 04       		.byte	4
+  64 0036 04       		.byte	4
+  65 0037 00       		.byte	0
+  66 0038 00       		.byte	0
+  67 0039 18       		.byte	24
+  68 003a 18       		.byte	24
+  69 003b 00       		.byte	0
+  70 003c 10       		.byte	16
+  71 003d 04       		.byte	4
+  72 003e 01       		.byte	1
+  73 003f 00       		.byte	0
+  74 0040 0E       		.byte	14
+  75 0041 11       		.byte	17
+  76 0042 0E       		.byte	14
+  77 0043 00       		.byte	0
+  78 0044 00       		.byte	0
+  79 0045 1F       		.byte	31
+  80 0046 00       		.byte	0
+  81 0047 00       		.byte	0
+  82 0048 19       		.byte	25
+  83 0049 15       		.byte	21
+  84 004a 12       		.byte	18
+  85 004b 00       		.byte	0
+  86 004c 11       		.byte	17
+  87 004d 15       		.byte	21
+  88 004e 0E       		.byte	14
+  89 004f 00       		.byte	0
+  90 0050 07       		.byte	7
+  91 0051 04       		.byte	4
+  92 0052 1F       		.byte	31
+  93 0053 00       		.byte	0
+  94 0054 17       		.byte	23
+  95 0055 15       		.byte	21
+  96 0056 09       		.byte	9
+  97 0057 00       		.byte	0
+  98 0058 0E       		.byte	14
+  99 0059 15       		.byte	21
+ 100 005a 08       		.byte	8
+ 101 005b 00       		.byte	0
+ 102 005c 01       		.byte	1
+ 103 005d 19       		.byte	25
+ 104 005e 07       		.byte	7
+ 105 005f 00       		.byte	0
+ 106 0060 0E       		.byte	14
+ 107 0061 15       		.byte	21
+ 108 0062 0E       		.byte	14
+ 109 0063 00       		.byte	0
+ 110 0064 02       		.byte	2
+ 111 0065 15       		.byte	21
+ 112 0066 0E       		.byte	14
+ 113 0067 00       		.byte	0
+ 114 0068 00       		.byte	0
+ 115 0069 0A       		.byte	10
+ 116 006a 00       		.byte	0
+GAS LISTING /tmp/ccS3P4Xb.s 			page 3
+
+
+ 117 006b 00       		.byte	0
+ 118 006c 00       		.byte	0
+ 119 006d 1A       		.byte	26
+ 120 006e 00       		.byte	0
+ 121 006f 00       		.byte	0
+ 122 0070 04       		.byte	4
+ 123 0071 0A       		.byte	10
+ 124 0072 11       		.byte	17
+ 125 0073 00       		.byte	0
+ 126 0074 0A       		.byte	10
+ 127 0075 0A       		.byte	10
+ 128 0076 0A       		.byte	10
+ 129 0077 00       		.byte	0
+ 130 0078 11       		.byte	17
+ 131 0079 0A       		.byte	10
+ 132 007a 04       		.byte	4
+ 133 007b 00       		.byte	0
+ 134 007c 01       		.byte	1
+ 135 007d 15       		.byte	21
+ 136 007e 02       		.byte	2
+ 137 007f 00       		.byte	0
+ 138 0080 0E       		.byte	14
+ 139 0081 15       		.byte	21
+ 140 0082 16       		.byte	22
+ 141 0083 00       		.byte	0
+ 142 0084 1E       		.byte	30
+ 143 0085 05       		.byte	5
+ 144 0086 1E       		.byte	30
+ 145 0087 00       		.byte	0
+ 146 0088 1F       		.byte	31
+ 147 0089 15       		.byte	21
+ 148 008a 0A       		.byte	10
+ 149 008b 00       		.byte	0
+ 150 008c 0E       		.byte	14
+ 151 008d 11       		.byte	17
+ 152 008e 11       		.byte	17
+ 153 008f 00       		.byte	0
+ 154 0090 1F       		.byte	31
+ 155 0091 11       		.byte	17
+ 156 0092 0E       		.byte	14
+ 157 0093 00       		.byte	0
+ 158 0094 1F       		.byte	31
+ 159 0095 15       		.byte	21
+ 160 0096 11       		.byte	17
+ 161 0097 00       		.byte	0
+ 162 0098 1F       		.byte	31
+ 163 0099 05       		.byte	5
+ 164 009a 01       		.byte	1
+ 165 009b 00       		.byte	0
+ 166 009c 0E       		.byte	14
+ 167 009d 15       		.byte	21
+ 168 009e 1C       		.byte	28
+ 169 009f 00       		.byte	0
+ 170 00a0 1F       		.byte	31
+ 171 00a1 04       		.byte	4
+ 172 00a2 1F       		.byte	31
+ 173 00a3 00       		.byte	0
+GAS LISTING /tmp/ccS3P4Xb.s 			page 4
+
+
+ 174 00a4 11       		.byte	17
+ 175 00a5 1F       		.byte	31
+ 176 00a6 11       		.byte	17
+ 177 00a7 00       		.byte	0
+ 178 00a8 08       		.byte	8
+ 179 00a9 10       		.byte	16
+ 180 00aa 0F       		.byte	15
+ 181 00ab 00       		.byte	0
+ 182 00ac 1F       		.byte	31
+ 183 00ad 04       		.byte	4
+ 184 00ae 1B       		.byte	27
+ 185 00af 00       		.byte	0
+ 186 00b0 1F       		.byte	31
+ 187 00b1 10       		.byte	16
+ 188 00b2 10       		.byte	16
+ 189 00b3 00       		.byte	0
+ 190 00b4 1F       		.byte	31
+ 191 00b5 02       		.byte	2
+ 192 00b6 1F       		.byte	31
+ 193 00b7 00       		.byte	0
+ 194 00b8 1F       		.byte	31
+ 195 00b9 04       		.byte	4
+ 196 00ba 1F       		.byte	31
+ 197 00bb 00       		.byte	0
+ 198 00bc 0E       		.byte	14
+ 199 00bd 11       		.byte	17
+ 200 00be 0E       		.byte	14
+ 201 00bf 00       		.byte	0
+ 202 00c0 1F       		.byte	31
+ 203 00c1 05       		.byte	5
+ 204 00c2 02       		.byte	2
+ 205 00c3 00       		.byte	0
+ 206 00c4 0E       		.byte	14
+ 207 00c5 19       		.byte	25
+ 208 00c6 1E       		.byte	30
+ 209 00c7 00       		.byte	0
+ 210 00c8 1F       		.byte	31
+ 211 00c9 05       		.byte	5
+ 212 00ca 1A       		.byte	26
+ 213 00cb 00       		.byte	0
+ 214 00cc 12       		.byte	18
+ 215 00cd 15       		.byte	21
+ 216 00ce 09       		.byte	9
+ 217 00cf 00       		.byte	0
+ 218 00d0 01       		.byte	1
+ 219 00d1 1F       		.byte	31
+ 220 00d2 01       		.byte	1
+ 221 00d3 00       		.byte	0
+ 222 00d4 0F       		.byte	15
+ 223 00d5 10       		.byte	16
+ 224 00d6 0F       		.byte	15
+ 225 00d7 00       		.byte	0
+ 226 00d8 07       		.byte	7
+ 227 00d9 18       		.byte	24
+ 228 00da 07       		.byte	7
+ 229 00db 00       		.byte	0
+ 230 00dc 1F       		.byte	31
+GAS LISTING /tmp/ccS3P4Xb.s 			page 5
+
+
+ 231 00dd 08       		.byte	8
+ 232 00de 1F       		.byte	31
+ 233 00df 00       		.byte	0
+ 234 00e0 1B       		.byte	27
+ 235 00e1 04       		.byte	4
+ 236 00e2 1B       		.byte	27
+ 237 00e3 00       		.byte	0
+ 238 00e4 03       		.byte	3
+ 239 00e5 1C       		.byte	28
+ 240 00e6 03       		.byte	3
+ 241 00e7 00       		.byte	0
+ 242 00e8 19       		.byte	25
+ 243 00e9 15       		.byte	21
+ 244 00ea 13       		.byte	19
+ 245 00eb 00       		.byte	0
+ 246 00ec 00       		.byte	0
+ 247 00ed 1F       		.byte	31
+ 248 00ee 11       		.byte	17
+ 249 00ef 00       		.byte	0
+ 250 00f0 01       		.byte	1
+ 251 00f1 04       		.byte	4
+ 252 00f2 10       		.byte	16
+ 253 00f3 00       		.byte	0
+ 254 00f4 00       		.byte	0
+ 255 00f5 11       		.byte	17
+ 256 00f6 1F       		.byte	31
+ 257 00f7 00       		.byte	0
+ 258 00f8 02       		.byte	2
+ 259 00f9 01       		.byte	1
+ 260 00fa 02       		.byte	2
+ 261 00fb 00       		.byte	0
+ 262 00fc 10       		.byte	16
+ 263 00fd 10       		.byte	16
+ 264 00fe 10       		.byte	16
+ 265 00ff 00       		.byte	0
+ 266 0100 00       		.byte	0
+ 267 0101 01       		.byte	1
+ 268 0102 02       		.byte	2
+ 269 0103 00       		.byte	0
+ 270 0104 0C       		.byte	12
+ 271 0105 12       		.byte	18
+ 272 0106 1C       		.byte	28
+ 273 0107 00       		.byte	0
+ 274 0108 1F       		.byte	31
+ 275 0109 12       		.byte	18
+ 276 010a 0C       		.byte	12
+ 277 010b 00       		.byte	0
+ 278 010c 0C       		.byte	12
+ 279 010d 12       		.byte	18
+ 280 010e 12       		.byte	18
+ 281 010f 00       		.byte	0
+ 282 0110 0C       		.byte	12
+ 283 0111 12       		.byte	18
+ 284 0112 1F       		.byte	31
+ 285 0113 00       		.byte	0
+ 286 0114 0C       		.byte	12
+ 287 0115 1A       		.byte	26
+GAS LISTING /tmp/ccS3P4Xb.s 			page 6
+
+
+ 288 0116 16       		.byte	22
+ 289 0117 00       		.byte	0
+ 290 0118 04       		.byte	4
+ 291 0119 1E       		.byte	30
+ 292 011a 05       		.byte	5
+ 293 011b 00       		.byte	0
+ 294 011c 06       		.byte	6
+ 295 011d 15       		.byte	21
+ 296 011e 0F       		.byte	15
+ 297 011f 00       		.byte	0
+ 298 0120 1F       		.byte	31
+ 299 0121 02       		.byte	2
+ 300 0122 1C       		.byte	28
+ 301 0123 00       		.byte	0
+ 302 0124 00       		.byte	0
+ 303 0125 1D       		.byte	29
+ 304 0126 10       		.byte	16
+ 305 0127 00       		.byte	0
+ 306 0128 08       		.byte	8
+ 307 0129 10       		.byte	16
+ 308 012a 0D       		.byte	13
+ 309 012b 00       		.byte	0
+ 310 012c 1F       		.byte	31
+ 311 012d 08       		.byte	8
+ 312 012e 16       		.byte	22
+ 313 012f 00       		.byte	0
+ 314 0130 01       		.byte	1
+ 315 0131 1F       		.byte	31
+ 316 0132 10       		.byte	16
+ 317 0133 00       		.byte	0
+ 318 0134 1E       		.byte	30
+ 319 0135 04       		.byte	4
+ 320 0136 1E       		.byte	30
+ 321 0137 00       		.byte	0
+ 322 0138 1E       		.byte	30
+ 323 0139 02       		.byte	2
+ 324 013a 1C       		.byte	28
+ 325 013b 00       		.byte	0
+ 326 013c 0C       		.byte	12
+ 327 013d 12       		.byte	18
+ 328 013e 0C       		.byte	12
+ 329 013f 00       		.byte	0
+ 330 0140 1E       		.byte	30
+ 331 0141 0A       		.byte	10
+ 332 0142 04       		.byte	4
+ 333 0143 00       		.byte	0
+ 334 0144 04       		.byte	4
+ 335 0145 0A       		.byte	10
+ 336 0146 1E       		.byte	30
+ 337 0147 00       		.byte	0
+ 338 0148 1E       		.byte	30
+ 339 0149 02       		.byte	2
+ 340 014a 02       		.byte	2
+ 341 014b 00       		.byte	0
+ 342 014c 14       		.byte	20
+ 343 014d 1E       		.byte	30
+ 344 014e 0A       		.byte	10
+GAS LISTING /tmp/ccS3P4Xb.s 			page 7
+
+
+ 345 014f 00       		.byte	0
+ 346 0150 02       		.byte	2
+ 347 0151 0F       		.byte	15
+ 348 0152 12       		.byte	18
+ 349 0153 00       		.byte	0
+ 350 0154 0E       		.byte	14
+ 351 0155 10       		.byte	16
+ 352 0156 1E       		.byte	30
+ 353 0157 00       		.byte	0
+ 354 0158 06       		.byte	6
+ 355 0159 18       		.byte	24
+ 356 015a 06       		.byte	6
+ 357 015b 00       		.byte	0
+ 358 015c 1E       		.byte	30
+ 359 015d 08       		.byte	8
+ 360 015e 1E       		.byte	30
+ 361 015f 00       		.byte	0
+ 362 0160 12       		.byte	18
+ 363 0161 0C       		.byte	12
+ 364 0162 12       		.byte	18
+ 365 0163 00       		.byte	0
+ 366 0164 02       		.byte	2
+ 367 0165 14       		.byte	20
+ 368 0166 0E       		.byte	14
+ 369 0167 00       		.byte	0
+ 370 0168 1A       		.byte	26
+ 371 0169 16       		.byte	22
+ 372 016a 12       		.byte	18
+ 373 016b 00       		.byte	0
+ 374 016c 04       		.byte	4
+ 375 016d 1F       		.byte	31
+ 376 016e 11       		.byte	17
+ 377 016f 00       		.byte	0
+ 378 0170 00       		.byte	0
+ 379 0171 1F       		.byte	31
+ 380 0172 00       		.byte	0
+ 381 0173 00       		.byte	0
+ 382 0174 11       		.byte	17
+ 383 0175 1F       		.byte	31
+ 384 0176 04       		.byte	4
+ 385 0177 00       		.byte	0
+ 386 0178 04       		.byte	4
+ 387 0179 02       		.byte	2
+ 388 017a 04       		.byte	4
+ 389 017b 00       		.byte	0
+ 390              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/ccS3P4Xb.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 font3x5.c
+     /tmp/ccS3P4Xb.s:9      .data.font3x5:0000000000000000 font3x5
+
+NO UNDEFINED SYMBOLS

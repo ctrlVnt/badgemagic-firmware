@@ -1,0 +1,477 @@
+GAS LISTING /tmp/ccqyemLl.s 			page 1
+
+
+   1              		.file	"button.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.highcode,"ax",@progbits
+   5              		.align	1
+   7              	debounce:
+   8 0000 9147     		li	a5,4
+   9 0002 6300F506 		beq	a0,a5,.L6
+  10 0006 37070000 		lui	a4,%hi(.LANCHOR0)
+  11 000a 93070700 		addi	a5,a4,%lo(.LANCHOR0)
+  12 000e 0A05     		slli	a0,a0,2
+  13 0010 AA97     		add	a5,a5,a0
+  14 0012 9C43     		lw	a5,0(a5)
+  15 0014 13070700 		addi	a4,a4,%lo(.LANCHOR0)
+  16 0018 93D62740 		srai	a3,a5,2
+  17 001c 958F     		sub	a5,a5,a3
+  18 001e 99C1     		beqz	a1,.L3
+  19 0020 9305F003 		li	a1,63
+  20              	.L3:
+  21 0024 BE95     		add	a1,a5,a1
+  22 0026 2A97     		add	a4,a4,a0
+  23 0028 B7070000 		lui	a5,%hi(.LANCHOR1)
+  24 002c 0CC3     		sw	a1,0(a4)
+  25 002e 13870700 		addi	a4,a5,%lo(.LANCHOR1)
+  26 0032 2A97     		add	a4,a4,a0
+  27 0034 1306800C 		li	a2,200
+  28 0038 1443     		lw	a3,0(a4)
+  29 003a 93870700 		addi	a5,a5,%lo(.LANCHOR1)
+  30 003e 6358B600 		ble	a1,a2,.L4
+  31 0042 99E2     		bnez	a3,.L5
+  32 0044 8546     		li	a3,1
+  33 0046 14C3     		sw	a3,0(a4)
+  34              	.L5:
+  35 0048 3E95     		add	a0,a5,a0
+  36 004a 0841     		lw	a0,0(a0)
+  37 004c 8280     		ret
+  38              	.L4:
+  39 004e 13066003 		li	a2,54
+  40 0052 E34BB6FE 		bgt	a1,a2,.L5
+  41 0056 0546     		li	a2,1
+  42 0058 E398C6FE 		bne	a3,a2,.L5
+  43 005c 23200700 		sw	zero,0(a4)
+  44 0060 E5B7     		j	.L5
+  45              	.L6:
+  46 0062 0145     		li	a0,0
+  47 0064 8280     		ret
+  49              		.align	1
+  51              	check:
+  52 0066 9147     		li	a5,4
+  53 0068 6305F50E 		beq	a0,a5,.L19
+  54 006c 4111     		addi	sp,sp,-16
+  55 006e 06C6     		sw	ra,12(sp)
+  56 0070 22C4     		sw	s0,8(sp)
+  57 0072 26C2     		sw	s1,4(sp)
+  58 0074 4AC0     		sw	s2,0(sp)
+  59 0076 B7170040 		li	a5,1073745920
+  60 007a 35CD     		beqz	a0,.L11
+GAS LISTING /tmp/ccqyemLl.s 			page 2
+
+
+  61 007c 83A5470C 		lw	a1,196(a5)
+  62 0080 D981     		srli	a1,a1,22
+  63 0082 93C51500 		xori	a1,a1,1
+  64 0086 8589     		andi	a1,a1,1
+  65              	.L12:
+  66 0088 2A84     		mv	s0,a0
+  67 008a 97000000 		call	debounce
+  67      E7800000 
+  68 0092 37070000 		lui	a4,%hi(.LANCHOR2)
+  69 0096 93060700 		addi	a3,a4,%lo(.LANCHOR2)
+  70 009a 13192400 		slli	s2,s0,2
+  71 009e CA96     		add	a3,a3,s2
+  72 00a0 9C42     		lw	a5,0(a3)
+  73 00a2 93040700 		addi	s1,a4,%lo(.LANCHOR2)
+  74 00a6 21CD     		beqz	a0,.L13
+  75 00a8 8507     		addi	a5,a5,1
+  76 00aa 9CC2     		sw	a5,0(a3)
+  77 00ac 6147     		li	a4,24
+  78 00ae 635CF708 		ble	a5,a4,.L8
+  79 00b2 37070000 		lui	a4,%hi(.LANCHOR3)
+  80 00b6 13070700 		addi	a4,a4,%lo(.LANCHOR3)
+  81 00ba 4A97     		add	a4,a4,s2
+  82 00bc 1C43     		lw	a5,0(a4)
+  83 00be C1E7     		bnez	a5,.L8
+  84 00c0 37050000 		lui	a0,%hi(.LANCHOR4)
+  85 00c4 13050500 		addi	a0,a0,%lo(.LANCHOR4)
+  86 00c8 8547     		li	a5,1
+  87 00ca 2A94     		add	s0,a0,s0
+  88 00cc 1CC3     		sw	a5,0(a4)
+  89 00ce 2300F400 		sb	a5,0(s0)
+  90 00d2 B7070000 		lui	a5,%hi(.LANCHOR5)
+  91 00d6 03C50700 		lbu	a0,%lo(.LANCHOR5)(a5)
+  92 00da 9307F00F 		li	a5,255
+  93 00de 6304F506 		beq	a0,a5,.L8
+  94 00e2 2244     		lw	s0,8(sp)
+  95 00e4 B240     		lw	ra,12(sp)
+  96 00e6 9244     		lw	s1,4(sp)
+  97 00e8 0249     		lw	s2,0(sp)
+  98 00ea 8545     		li	a1,1
+  99 00ec 4101     		addi	sp,sp,16
+ 100 00ee 17030000 		tail	tmos_set_event
+ 100      67000300 
+ 101              	.L11:
+ 102 00f6 83A5470A 		lw	a1,164(a5)
+ 103 00fa 8989     		andi	a1,a1,2
+ 104 00fc 71B7     		j	.L12
+ 105              	.L13:
+ 106 00fe FD17     		addi	a5,a5,-1
+ 107 0100 5D47     		li	a4,23
+ 108 0102 6367F702 		bgtu	a5,a4,.L16
+ 109 0106 37050000 		lui	a0,%hi(.LANCHOR6)
+ 110 010a 13050500 		addi	a0,a0,%lo(.LANCHOR6)
+ 111 010e 2A94     		add	s0,a0,s0
+ 112 0110 8547     		li	a5,1
+ 113 0112 2300F400 		sb	a5,0(s0)
+ 114 0116 B7070000 		lui	a5,%hi(.LANCHOR5)
+ 115 011a 03C50700 		lbu	a0,%lo(.LANCHOR5)(a5)
+GAS LISTING /tmp/ccqyemLl.s 			page 3
+
+
+ 116 011e 9307F00F 		li	a5,255
+ 117 0122 6307F500 		beq	a0,a5,.L16
+ 118 0126 8545     		li	a1,1
+ 119 0128 97000000 		call	tmos_set_event
+ 119      E7800000 
+ 120              	.L16:
+ 121 0130 B7070000 		lui	a5,%hi(.LANCHOR3)
+ 122 0134 93870700 		addi	a5,a5,%lo(.LANCHOR3)
+ 123 0138 CA97     		add	a5,a5,s2
+ 124 013a 33872401 		add	a4,s1,s2
+ 125 013e 23A00700 		sw	zero,0(a5)
+ 126 0142 23200700 		sw	zero,0(a4)
+ 127              	.L8:
+ 128 0146 B240     		lw	ra,12(sp)
+ 129 0148 2244     		lw	s0,8(sp)
+ 130 014a 9244     		lw	s1,4(sp)
+ 131 014c 0249     		lw	s2,0(sp)
+ 132 014e 4101     		addi	sp,sp,16
+ 133 0150 8280     		jr	ra
+ 134              	.L19:
+ 135 0152 8280     		ret
+ 137              		.align	1
+ 139              	check_keys:
+ 140 0154 4111     		addi	sp,sp,-16
+ 141 0156 0145     		li	a0,0
+ 142 0158 06C6     		sw	ra,12(sp)
+ 143 015a 97000000 		call	check
+ 143      E7800000 
+ 144 0162 0545     		li	a0,1
+ 145 0164 97000000 		call	check
+ 145      E7800000 
+ 146 016c 0945     		li	a0,2
+ 147 016e 97000000 		call	check
+ 147      E7800000 
+ 148 0176 B240     		lw	ra,12(sp)
+ 149 0178 0D45     		li	a0,3
+ 150 017a 4101     		addi	sp,sp,16
+ 151 017c 17030000 		tail	check
+ 151      67000300 
+ 153              		.section	.text.btn_init,"ax",@progbits
+ 154              		.align	1
+ 155              		.globl	btn_init
+ 157              	btn_init:
+ 158 0000 4111     		addi	sp,sp,-16
+ 159 0002 8945     		li	a1,2
+ 160 0004 0945     		li	a0,2
+ 161 0006 06C6     		sw	ra,12(sp)
+ 162 0008 97000000 		call	GPIOA_ModeCfg
+ 162      E7800000 
+ 163 0010 8545     		li	a1,1
+ 164 0012 37054000 		li	a0,4194304
+ 165 0016 97000000 		call	GPIOB_ModeCfg
+ 165      E7800000 
+ 166 001e 37551200 		li	a0,1200128
+ 167 0022 130505F8 		addi	a0,a0,-128
+ 168 0026 97000000 		call	TMR3_TimerInit
+ 168      E7800000 
+GAS LISTING /tmp/ccqyemLl.s 			page 4
+
+
+ 169 002e 37370040 		li	a4,1073754112
+ 170 0032 834727C0 		lbu	a5,-1022(a4)
+ 171 0036 93E71700 		ori	a5,a5,1
+ 172 003a 2301F7C0 		sb	a5,-1022(a4)
+ 173 003e B240     		lw	ra,12(sp)
+ 174 0040 B7E700E0 		li	a5,-536813568
+ 175 0044 0547     		li	a4,1
+ 176 0046 23A2E710 		sw	a4,260(a5)
+ 177 004a 4101     		addi	sp,sp,16
+ 178 004c 8280     		jr	ra
+ 180              		.section	.text.btn_init_task,"ax",@progbits
+ 181              		.align	1
+ 182              		.globl	btn_init_task
+ 184              	btn_init_task:
+ 185 0000 37050000 		lui	a0,%hi(btn_task)
+ 186 0004 4111     		addi	sp,sp,-16
+ 187 0006 13050500 		addi	a0,a0,%lo(btn_task)
+ 188 000a 06C6     		sw	ra,12(sp)
+ 189 000c 97000000 		call	TMOS_ProcessEventRegister
+ 189      E7800000 
+ 190 0014 B240     		lw	ra,12(sp)
+ 191 0016 B7070000 		lui	a5,%hi(.LANCHOR5)
+ 192 001a 2380A700 		sb	a0,%lo(.LANCHOR5)(a5)
+ 193 001e 4101     		addi	sp,sp,16
+ 194 0020 8280     		jr	ra
+ 196              		.section	.text.btn_onOnePress,"ax",@progbits
+ 197              		.align	1
+ 198              		.globl	btn_onOnePress
+ 200              	btn_onOnePress:
+ 201 0000 8D47     		li	a5,3
+ 202 0002 63CAA700 		bgt	a0,a5,.L28
+ 203 0006 93172500 		slli	a5,a0,2
+ 204 000a 37050000 		lui	a0,%hi(.LANCHOR7)
+ 205 000e 13050500 		addi	a0,a0,%lo(.LANCHOR7)
+ 206 0012 3E95     		add	a0,a0,a5
+ 207 0014 0CC1     		sw	a1,0(a0)
+ 208              	.L28:
+ 209 0016 8280     		ret
+ 211              		.section	.text.btn_onLongPress,"ax",@progbits
+ 212              		.align	1
+ 213              		.globl	btn_onLongPress
+ 215              	btn_onLongPress:
+ 216 0000 8D47     		li	a5,3
+ 217 0002 63CAA700 		bgt	a0,a5,.L30
+ 218 0006 93172500 		slli	a5,a0,2
+ 219 000a 37050000 		lui	a0,%hi(.LANCHOR8)
+ 220 000e 13050500 		addi	a0,a0,%lo(.LANCHOR8)
+ 221 0012 3E95     		add	a0,a0,a5
+ 222 0014 0CC1     		sw	a1,0(a0)
+ 223              	.L30:
+ 224 0016 8280     		ret
+ 226              		.section	.text.btn_tick,"ax",@progbits
+ 227              		.align	1
+ 228              		.globl	btn_tick
+ 230              	btn_tick:
+ 231 0000 0111     		addi	sp,sp,-32
+ 232 0002 26CA     		sw	s1,20(sp)
+GAS LISTING /tmp/ccqyemLl.s 			page 5
+
+
+ 233 0004 4AC8     		sw	s2,16(sp)
+ 234 0006 4EC6     		sw	s3,12(sp)
+ 235 0008 52C4     		sw	s4,8(sp)
+ 236 000a B7040000 		lui	s1,%hi(.LANCHOR6)
+ 237 000e B7090000 		lui	s3,%hi(.LANCHOR7)
+ 238 0012 37090000 		lui	s2,%hi(.LANCHOR4)
+ 239 0016 370A0000 		lui	s4,%hi(.LANCHOR8)
+ 240 001a 22CC     		sw	s0,24(sp)
+ 241 001c 56C2     		sw	s5,4(sp)
+ 242 001e 06CE     		sw	ra,28(sp)
+ 243 0020 0144     		li	s0,0
+ 244 0022 93840400 		addi	s1,s1,%lo(.LANCHOR6)
+ 245 0026 93890900 		addi	s3,s3,%lo(.LANCHOR7)
+ 246 002a 13090900 		addi	s2,s2,%lo(.LANCHOR4)
+ 247 002e 130A0A00 		addi	s4,s4,%lo(.LANCHOR8)
+ 248 0032 914A     		li	s5,4
+ 249              	.L39:
+ 250 0034 33878400 		add	a4,s1,s0
+ 251 0038 83470700 		lbu	a5,0(a4)
+ 252 003c 93F7F70F 		andi	a5,a5,0xff
+ 253 0040 89CB     		beqz	a5,.L34
+ 254 0042 93172400 		slli	a5,s0,2
+ 255 0046 CE97     		add	a5,s3,a5
+ 256 0048 9C43     		lw	a5,0(a5)
+ 257 004a 23000700 		sb	zero,0(a4)
+ 258 004e 91C3     		beqz	a5,.L34
+ 259 0050 8297     		jalr	a5
+ 260              	.L34:
+ 261 0052 33078900 		add	a4,s2,s0
+ 262 0056 83470700 		lbu	a5,0(a4)
+ 263 005a 93F7F70F 		andi	a5,a5,0xff
+ 264 005e 89CB     		beqz	a5,.L37
+ 265 0060 93172400 		slli	a5,s0,2
+ 266 0064 D297     		add	a5,s4,a5
+ 267 0066 9C43     		lw	a5,0(a5)
+ 268 0068 23000700 		sb	zero,0(a4)
+ 269 006c 91C3     		beqz	a5,.L37
+ 270 006e 8297     		jalr	a5
+ 271              	.L37:
+ 272 0070 0504     		addi	s0,s0,1
+ 273 0072 E31154FD 		bne	s0,s5,.L39
+ 274 0076 F240     		lw	ra,28(sp)
+ 275 0078 6244     		lw	s0,24(sp)
+ 276 007a D244     		lw	s1,20(sp)
+ 277 007c 4249     		lw	s2,16(sp)
+ 278 007e B249     		lw	s3,12(sp)
+ 279 0080 224A     		lw	s4,8(sp)
+ 280 0082 924A     		lw	s5,4(sp)
+ 281 0084 0561     		addi	sp,sp,32
+ 282 0086 8280     		jr	ra
+ 284              		.section	.text.btn_task,"ax",@progbits
+ 285              		.align	1
+ 287              	btn_task:
+ 288 0000 4111     		addi	sp,sp,-16
+ 289 0002 93970501 		slli	a5,a1,16
+ 290 0006 22C4     		sw	s0,8(sp)
+ 291 0008 06C6     		sw	ra,12(sp)
+GAS LISTING /tmp/ccqyemLl.s 			page 6
+
+
+ 292 000a C187     		srai	a5,a5,16
+ 293 000c 2E84     		mv	s0,a1
+ 294 000e 63D60702 		bgez	a5,.L49
+ 295 0012 B7070000 		lui	a5,%hi(.LANCHOR5)
+ 296 0016 03C50700 		lbu	a0,%lo(.LANCHOR5)(a5)
+ 297 001a 97000000 		call	tmos_msg_receive
+ 297      E7800000 
+ 298 0022 09C5     		beqz	a0,.L50
+ 299 0024 97000000 		call	tmos_msg_deallocate
+ 299      E7800000 
+ 300              	.L50:
+ 301 002c A167     		li	a5,32768
+ 302 002e 3D8C     		xor	s0,s0,a5
+ 303              	.L51:
+ 304 0030 2285     		mv	a0,s0
+ 305 0032 B240     		lw	ra,12(sp)
+ 306 0034 2244     		lw	s0,8(sp)
+ 307 0036 4101     		addi	sp,sp,16
+ 308 0038 8280     		jr	ra
+ 309              	.L49:
+ 310 003a 93F71500 		andi	a5,a1,1
+ 311 003e EDDB     		beqz	a5,.L51
+ 312 0040 97000000 		call	btn_tick
+ 312      E7800000 
+ 313 0048 13441400 		xori	s0,s0,1
+ 314 004c D5B7     		j	.L51
+ 316              		.section	.highcode
+ 317              		.align	1
+ 318              		.globl	TMR3_IRQHandler
+ 320              	TMR3_IRQHandler:
+ 321 0184 4111     		addi	sp,sp,-16
+ 322 0186 22C6     		sw	s0,12(sp)
+ 323 0188 37340040 		li	s0,1073754112
+ 324 018c 834764C0 		lbu	a5,-1018(s0)
+ 325 0190 858B     		andi	a5,a5,1
+ 326 0192 81CB     		beqz	a5,.L59
+ 327 0194 97000000 		call	check_keys
+ 327      E7800000 
+ 328 019c 8547     		li	a5,1
+ 329 019e 2303F4C0 		sb	a5,-1018(s0)
+ 330              	.L59:
+ 331 01a2 3244     		lw	s0,12(sp)
+ 332 01a4 4101     		addi	sp,sp,16
+ 333 01a6 73002030 		mret
+ 335              		.section	.bss.flag.4318,"aw",@nobits
+ 336              		.align	2
+ 337              		.set	.LANCHOR1,. + 0
+ 340              	flag.4318:
+ 341 0000 00000000 		.zero	16
+ 341      00000000 
+ 341      00000000 
+ 341      00000000 
+ 342              		.section	.bss.hold.4322,"aw",@nobits
+ 343              		.align	2
+ 344              		.set	.LANCHOR2,. + 0
+ 347              	hold.4322:
+ 348 0000 00000000 		.zero	16
+GAS LISTING /tmp/ccqyemLl.s 			page 7
+
+
+ 348      00000000 
+ 348      00000000 
+ 348      00000000 
+ 349              		.section	.bss.is_longpress.4323,"aw",@nobits
+ 350              		.align	2
+ 351              		.set	.LANCHOR3,. + 0
+ 354              	is_longpress.4323:
+ 355 0000 00000000 		.zero	16
+ 355      00000000 
+ 355      00000000 
+ 355      00000000 
+ 356              		.section	.bss.longPressHandler,"aw",@nobits
+ 357              		.align	2
+ 358              		.set	.LANCHOR8,. + 0
+ 361              	longPressHandler:
+ 362 0000 00000000 		.zero	16
+ 362      00000000 
+ 362      00000000 
+ 362      00000000 
+ 363              		.section	.bss.onePressHandler,"aw",@nobits
+ 364              		.align	2
+ 365              		.set	.LANCHOR7,. + 0
+ 368              	onePressHandler:
+ 369 0000 00000000 		.zero	16
+ 369      00000000 
+ 369      00000000 
+ 369      00000000 
+ 370              		.section	.bss.y.4317,"aw",@nobits
+ 371              		.align	2
+ 372              		.set	.LANCHOR0,. + 0
+ 375              	y.4317:
+ 376 0000 00000000 		.zero	16
+ 376      00000000 
+ 376      00000000 
+ 376      00000000 
+ 377              		.section	.sbss.longPressPending,"aw",@nobits
+ 378              		.align	2
+ 379              		.set	.LANCHOR4,. + 0
+ 382              	longPressPending:
+ 383 0000 00000000 		.zero	4
+ 384              		.section	.sbss.onePressPending,"aw",@nobits
+ 385              		.align	2
+ 386              		.set	.LANCHOR6,. + 0
+ 389              	onePressPending:
+ 390 0000 00000000 		.zero	4
+ 391              		.section	.sdata.button_task_id,"aw"
+ 392              		.set	.LANCHOR5,. + 0
+ 395              	button_task_id:
+ 396 0000 FF       		.byte	-1
+ 397              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/ccqyemLl.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 button.c
+     /tmp/ccqyemLl.s:7      .highcode:0000000000000000 debounce
+     /tmp/ccqyemLl.s:51     .highcode:0000000000000066 check
+     /tmp/ccqyemLl.s:139    .highcode:0000000000000154 check_keys
+     /tmp/ccqyemLl.s:157    .text.btn_init:0000000000000000 btn_init
+     /tmp/ccqyemLl.s:184    .text.btn_init_task:0000000000000000 btn_init_task
+     /tmp/ccqyemLl.s:287    .text.btn_task:0000000000000000 btn_task
+     /tmp/ccqyemLl.s:200    .text.btn_onOnePress:0000000000000000 btn_onOnePress
+     /tmp/ccqyemLl.s:215    .text.btn_onLongPress:0000000000000000 btn_onLongPress
+     /tmp/ccqyemLl.s:230    .text.btn_tick:0000000000000000 btn_tick
+     /tmp/ccqyemLl.s:320    .highcode:0000000000000184 TMR3_IRQHandler
+     /tmp/ccqyemLl.s:337    .bss.flag.4318:0000000000000000 .LANCHOR1
+     /tmp/ccqyemLl.s:340    .bss.flag.4318:0000000000000000 flag.4318
+     /tmp/ccqyemLl.s:344    .bss.hold.4322:0000000000000000 .LANCHOR2
+     /tmp/ccqyemLl.s:347    .bss.hold.4322:0000000000000000 hold.4322
+     /tmp/ccqyemLl.s:351    .bss.is_longpress.4323:0000000000000000 .LANCHOR3
+     /tmp/ccqyemLl.s:354    .bss.is_longpress.4323:0000000000000000 is_longpress.4323
+     /tmp/ccqyemLl.s:358    .bss.longPressHandler:0000000000000000 .LANCHOR8
+     /tmp/ccqyemLl.s:361    .bss.longPressHandler:0000000000000000 longPressHandler
+     /tmp/ccqyemLl.s:365    .bss.onePressHandler:0000000000000000 .LANCHOR7
+     /tmp/ccqyemLl.s:368    .bss.onePressHandler:0000000000000000 onePressHandler
+     /tmp/ccqyemLl.s:372    .bss.y.4317:0000000000000000 .LANCHOR0
+     /tmp/ccqyemLl.s:375    .bss.y.4317:0000000000000000 y.4317
+     /tmp/ccqyemLl.s:379    .sbss.longPressPending:0000000000000000 .LANCHOR4
+     /tmp/ccqyemLl.s:382    .sbss.longPressPending:0000000000000000 longPressPending
+     /tmp/ccqyemLl.s:386    .sbss.onePressPending:0000000000000000 .LANCHOR6
+     /tmp/ccqyemLl.s:389    .sbss.onePressPending:0000000000000000 onePressPending
+     /tmp/ccqyemLl.s:392    .sdata.button_task_id:0000000000000000 .LANCHOR5
+     /tmp/ccqyemLl.s:395    .sdata.button_task_id:0000000000000000 button_task_id
+     /tmp/ccqyemLl.s:45     .highcode:0000000000000062 .L6
+     /tmp/ccqyemLl.s:20     .highcode:0000000000000024 .L3
+     /tmp/ccqyemLl.s:38     .highcode:000000000000004e .L4
+     /tmp/ccqyemLl.s:34     .highcode:0000000000000048 .L5
+     /tmp/ccqyemLl.s:134    .highcode:0000000000000152 .L19
+     /tmp/ccqyemLl.s:101    .highcode:00000000000000f6 .L11
+     /tmp/ccqyemLl.s:105    .highcode:00000000000000fe .L13
+     /tmp/ccqyemLl.s:127    .highcode:0000000000000146 .L8
+     /tmp/ccqyemLl.s:65     .highcode:0000000000000088 .L12
+     /tmp/ccqyemLl.s:120    .highcode:0000000000000130 .L16
+     /tmp/ccqyemLl.s:330    .highcode:00000000000001a2 .L59
+     /tmp/ccqyemLl.s:208    .text.btn_onOnePress:0000000000000016 .L28
+     /tmp/ccqyemLl.s:223    .text.btn_onLongPress:0000000000000016 .L30
+     /tmp/ccqyemLl.s:260    .text.btn_tick:0000000000000052 .L34
+     /tmp/ccqyemLl.s:271    .text.btn_tick:0000000000000070 .L37
+     /tmp/ccqyemLl.s:249    .text.btn_tick:0000000000000034 .L39
+     /tmp/ccqyemLl.s:309    .text.btn_task:000000000000003a .L49
+     /tmp/ccqyemLl.s:300    .text.btn_task:000000000000002c .L50
+     /tmp/ccqyemLl.s:303    .text.btn_task:0000000000000030 .L51
+
+UNDEFINED SYMBOLS
+tmos_set_event
+GPIOA_ModeCfg
+GPIOB_ModeCfg
+TMR3_TimerInit
+TMOS_ProcessEventRegister
+tmos_msg_receive
+GAS LISTING /tmp/ccqyemLl.s 			page 9
+
+
+tmos_msg_deallocate

@@ -1,0 +1,706 @@
+GAS LISTING /tmp/ccn43CSP.s 			page 1
+
+
+   1              		.file	"game.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.draw_pixel,"ax",@progbits
+   5              		.align	1
+   7              	draw_pixel:
+   8 0000 9307B002 		li	a5,43
+   9 0004 63E7A702 		bgtu	a0,a5,.L1
+  10 0008 A947     		li	a5,10
+  11 000a 63E4B702 		bgtu	a1,a5,.L1
+  12 000e B7070000 		lui	a5,%hi(.LANCHOR0)
+  13 0012 13171500 		slli	a4,a0,1
+  14 0016 03A50700 		lw	a0,%lo(.LANCHOR0)(a5)
+  15 001a 8547     		li	a5,1
+  16 001c B395B700 		sll	a1,a5,a1
+  17 0020 3A95     		add	a0,a0,a4
+  18 0022 C205     		slli	a1,a1,16
+  19 0024 03170500 		lh	a4,0(a0)
+  20 0028 C185     		srai	a1,a1,16
+  21 002a 09C6     		beqz	a2,.L3
+  22 002c D98D     		or	a1,a4,a1
+  23              	.L4:
+  24 002e 2310B500 		sh	a1,0(a0)
+  25              	.L1:
+  26 0032 8280     		ret
+  27              	.L3:
+  28 0034 93C5F5FF 		not	a1,a1
+  29 0038 F98D     		and	a1,a4,a1
+  30 003a D5BF     		j	.L4
+  32              		.section	.text.on_turn_left,"ax",@progbits
+  33              		.align	1
+  35              	on_turn_left:
+  36 0000 B7070000 		lui	a5,%hi(.LANCHOR2)
+  37 0004 83A70700 		lw	a5,%lo(.LANCHOR2)(a5)
+  38 0008 37070000 		lui	a4,%hi(.LANCHOR1)
+  39 000c 8D07     		addi	a5,a5,3
+  40 000e 8D8B     		andi	a5,a5,3
+  41 0010 2320F700 		sw	a5,%lo(.LANCHOR1)(a4)
+  42 0014 8280     		ret
+  44              		.section	.text.on_turn_right,"ax",@progbits
+  45              		.align	1
+  47              	on_turn_right:
+  48 0000 B7070000 		lui	a5,%hi(.LANCHOR2)
+  49 0004 83A70700 		lw	a5,%lo(.LANCHOR2)(a5)
+  50 0008 37070000 		lui	a4,%hi(.LANCHOR1)
+  51 000c 8507     		addi	a5,a5,1
+  52 000e 8D8B     		andi	a5,a5,3
+  53 0010 2320F700 		sw	a5,%lo(.LANCHOR1)(a4)
+  54 0014 8280     		ret
+  56              		.section	.text.check_collision,"ax",@progbits
+  57              		.align	1
+  59              	check_collision:
+  60 0000 9307B002 		li	a5,43
+  61 0004 4111     		addi	sp,sp,-16
+  62 0006 63EEA702 		bgtu	a0,a5,.L14
+  63 000a 2947     		li	a4,10
+  64 000c 8547     		li	a5,1
+GAS LISTING /tmp/ccn43CSP.s 			page 2
+
+
+  65 000e 636EB700 		bgtu	a1,a4,.L7
+  66 0012 B7070000 		lui	a5,%hi(.LANCHOR3)
+  67 0016 83A60700 		lw	a3,%lo(.LANCHOR3)(a5)
+  68 001a B7070000 		lui	a5,%hi(.LANCHOR4)
+  69 001e 93870700 		addi	a5,a5,%lo(.LANCHOR4)
+  70 0022 0547     		li	a4,1
+  71              	.L9:
+  72 0024 6346D700 		bgt	a3,a4,.L11
+  73 0028 8147     		li	a5,0
+  74              	.L7:
+  75 002a 3E85     		mv	a0,a5
+  76 002c 4101     		addi	sp,sp,16
+  77 002e 8280     		jr	ra
+  78              	.L11:
+  79 0030 9047     		lw	a2,8(a5)
+  80 0032 6315A600 		bne	a2,a0,.L10
+  81 0036 D047     		lw	a2,12(a5)
+  82 0038 6305B600 		beq	a2,a1,.L14
+  83              	.L10:
+  84 003c 0507     		addi	a4,a4,1
+  85 003e A107     		addi	a5,a5,8
+  86 0040 D5B7     		j	.L9
+  87              	.L14:
+  88 0042 8547     		li	a5,1
+  89 0044 DDB7     		j	.L7
+  91              		.section	.text.game_puts.constprop.2,"ax",@progbits
+  92              		.align	1
+  94              	game_puts.constprop.2:
+  95 0000 7D47     		li	a4,31
+  96 0002 B7070000 		lui	a5,%hi(.LANCHOR0)
+  97 0006 3317B700 		sll	a4,a4,a1
+  98 000a 1347F7FF 		not	a4,a4
+  99 000e 83AE0700 		lw	t4,%lo(.LANCHOR0)(a5)
+ 100 0012 4207     		slli	a4,a4,16
+ 101 0014 37030000 		lui	t1,%hi(font3x5)
+ 102 0018 4187     		srai	a4,a4,16
+ 103 001a 0948     		li	a6,2
+ 104 001c 13030300 		addi	t1,t1,%lo(font3x5)
+ 105 0020 130FB002 		li	t5,43
+ 106 0024 914F     		li	t6,4
+ 107              	.L17:
+ 108 0026 83470500 		lbu	a5,0(a0)
+ 109 002a 91E3     		bnez	a5,.L20
+ 110 002c 8280     		ret
+ 111              	.L20:
+ 112 002e 93161800 		slli	a3,a6,1
+ 113 0032 8A07     		slli	a5,a5,2
+ 114 0034 0505     		addi	a0,a0,1
+ 115 0036 F696     		add	a3,t4,a3
+ 116 0038 9A97     		add	a5,a5,t1
+ 117 003a 8148     		li	a7,0
+ 118              	.L19:
+ 119 003c 33860801 		add	a2,a7,a6
+ 120 0040 6342CF02 		bgt	a2,t5,.L18
+ 121 0044 03D60600 		lhu	a2,0(a3)
+ 122 0048 03CE07F8 		lbu	t3,-128(a5)
+ 123 004c 8508     		addi	a7,a7,1
+GAS LISTING /tmp/ccn43CSP.s 			page 3
+
+
+ 124 004e 798E     		and	a2,a4,a2
+ 125 0050 331EBE00 		sll	t3,t3,a1
+ 126 0054 3366C601 		or	a2,a2,t3
+ 127 0058 2390C600 		sh	a2,0(a3)
+ 128 005c 8507     		addi	a5,a5,1
+ 129 005e 8906     		addi	a3,a3,2
+ 130 0060 E39EF8FD 		bne	a7,t6,.L19
+ 131              	.L18:
+ 132 0064 1108     		addi	a6,a6,4
+ 133 0066 C1B7     		j	.L17
+ 135              		.section	.text.show_score,"ax",@progbits
+ 136              		.align	1
+ 138              	show_score:
+ 139 0000 0111     		addi	sp,sp,-32
+ 140 0002 22CC     		sw	s0,24(sp)
+ 141 0004 26CA     		sw	s1,20(sp)
+ 142 0006 4AC8     		sw	s2,16(sp)
+ 143 0008 06CE     		sw	ra,28(sp)
+ 144 000a 97000000 		call	data_read_highscore
+ 144      E7800000 
+ 145 0012 B7070000 		lui	a5,%hi(.LANCHOR5)
+ 146 0016 03D90700 		lhu	s2,%lo(.LANCHOR5)(a5)
+ 147 001a 93840700 		addi	s1,a5,%lo(.LANCHOR5)
+ 148 001e 2A84     		mv	s0,a0
+ 149 0020 63782501 		bleu	s2,a0,.L23
+ 150 0024 4A85     		mv	a0,s2
+ 151 0026 97000000 		call	data_write_highscore
+ 151      E7800000 
+ 152 002e 4A84     		mv	s0,s2
+ 153              	.L23:
+ 154 0030 B7070000 		lui	a5,%hi(.LANCHOR0)
+ 155 0034 03A50700 		lw	a0,%lo(.LANCHOR0)(a5)
+ 156 0038 13068005 		li	a2,88
+ 157 003c 8145     		li	a1,0
+ 158 003e 97000000 		call	memset
+ 158      E7800000 
+ 159 0046 B7474F52 		li	a5,1380925440
+ 160 004a 93873735 		addi	a5,a5,851
+ 161 004e 3EC2     		sw	a5,4(sp)
+ 162 0050 9167     		li	a5,16384
+ 163 0052 938757A4 		addi	a5,a5,-1467
+ 164 0056 2314F100 		sh	a5,8(sp)
+ 165 005a 83D70400 		lhu	a5,0(s1)
+ 166 005e A944     		li	s1,10
+ 167 0060 4800     		addi	a0,sp,4
+ 168 0062 33D79702 		divu	a4,a5,s1
+ 169 0066 8145     		li	a1,0
+ 170 0068 23060100 		sb	zero,12(sp)
+ 171 006c B3F79702 		remu	a5,a5,s1
+ 172 0070 13070703 		addi	a4,a4,48
+ 173 0074 2305E100 		sb	a4,10(sp)
+ 174 0078 93870703 		addi	a5,a5,48
+ 175 007c A305F100 		sb	a5,11(sp)
+ 176 0080 97000000 		call	game_puts.constprop.2
+ 176      E7800000 
+ 177 0088 B7475354 		li	a5,1414742016
+ 178 008c 93872754 		addi	a5,a5,1346
+GAS LISTING /tmp/ccn43CSP.s 			page 4
+
+
+ 179 0090 3EC2     		sw	a5,4(sp)
+ 180 0092 9307A003 		li	a5,58
+ 181 0096 2304F100 		sb	a5,8(sp)
+ 182 009a B3579402 		divu	a5,s0,s1
+ 183 009e 4800     		addi	a0,sp,4
+ 184 00a0 9945     		li	a1,6
+ 185 00a2 A3050100 		sb	zero,11(sp)
+ 186 00a6 33749402 		remu	s0,s0,s1
+ 187 00aa 93870703 		addi	a5,a5,48
+ 188 00ae A304F100 		sb	a5,9(sp)
+ 189 00b2 13040403 		addi	s0,s0,48
+ 190 00b6 23058100 		sb	s0,10(sp)
+ 191 00ba 97000000 		call	game_puts.constprop.2
+ 191      E7800000 
+ 192 00c2 0565     		li	a0,4096
+ 193 00c4 130585BB 		addi	a0,a0,-1096
+ 194 00c8 97000000 		call	mDelaymS
+ 194      E7800000 
+ 195 00d0 F240     		lw	ra,28(sp)
+ 196 00d2 6244     		lw	s0,24(sp)
+ 197 00d4 D244     		lw	s1,20(sp)
+ 198 00d6 4249     		lw	s2,16(sp)
+ 199 00d8 0561     		addi	sp,sp,32
+ 200 00da 8280     		jr	ra
+ 202              		.section	.text.generate_food,"ax",@progbits
+ 203              		.align	1
+ 205              	generate_food:
+ 206 0000 7971     		addi	sp,sp,-48
+ 207 0002 26D2     		sw	s1,36(sp)
+ 208 0004 4AD0     		sw	s2,32(sp)
+ 209 0006 4ECE     		sw	s3,28(sp)
+ 210 0008 06D6     		sw	ra,44(sp)
+ 211 000a 22D4     		sw	s0,40(sp)
+ 212 000c 8144     		li	s1,0
+ 213 000e 2D49     		li	s2,11
+ 214 0010 9309C002 		li	s3,44
+ 215              	.L27:
+ 216 0014 0144     		li	s0,0
+ 217              	.L30:
+ 218 0016 2685     		mv	a0,s1
+ 219 0018 A285     		mv	a1,s0
+ 220 001a 97000000 		call	check_collision
+ 220      E7800000 
+ 221 0022 39E1     		bnez	a0,.L28
+ 222 0024 37040000 		lui	s0,%hi(.LANCHOR7)
+ 223 0028 13040400 		addi	s0,s0,%lo(.LANCHOR7)
+ 224 002c 1309C002 		li	s2,44
+ 225 0030 AD44     		li	s1,11
+ 226              	.L29:
+ 227 0032 97000000 		call	rand
+ 227      E7800000 
+ 228 003a 33652503 		rem	a0,a0,s2
+ 229 003e 08C0     		sw	a0,0(s0)
+ 230 0040 97000000 		call	rand
+ 230      E7800000 
+ 231 0048 B3659502 		rem	a1,a0,s1
+ 232 004c 0840     		lw	a0,0(s0)
+GAS LISTING /tmp/ccn43CSP.s 			page 5
+
+
+ 233 004e 4CC0     		sw	a1,4(s0)
+ 234 0050 97000000 		call	check_collision
+ 234      E7800000 
+ 235 0058 69FD     		bnez	a0,.L29
+ 236 005a B250     		lw	ra,44(sp)
+ 237 005c 2254     		lw	s0,40(sp)
+ 238 005e 9254     		lw	s1,36(sp)
+ 239 0060 0259     		lw	s2,32(sp)
+ 240 0062 F249     		lw	s3,28(sp)
+ 241 0064 4561     		addi	sp,sp,48
+ 242 0066 8280     		jr	ra
+ 243              	.L28:
+ 244 0068 0504     		addi	s0,s0,1
+ 245 006a E31624FB 		bne	s0,s2,.L30
+ 246 006e 8504     		addi	s1,s1,1
+ 247 0070 E39234FB 		bne	s1,s3,.L27
+ 248 0074 97000000 		call	show_score
+ 248      E7800000 
+ 249 007c B7070000 		lui	a5,%hi(.LANCHOR6)
+ 250 0080 03C50700 		lbu	a0,%lo(.LANCHOR6)(a5)
+ 251 0084 8545     		li	a1,1
+ 252 0086 97000000 		call	tmos_stop_task
+ 252      E7800000 
+ 253 008e 2254     		lw	s0,40(sp)
+ 254 0090 B250     		lw	ra,44(sp)
+ 255 0092 9254     		lw	s1,36(sp)
+ 256 0094 0259     		lw	s2,32(sp)
+ 257 0096 F249     		lw	s3,28(sp)
+ 258 0098 4561     		addi	sp,sp,48
+ 259 009a 17030000 		tail	return_to_menu
+ 259      67000300 
+ 261              		.section	.text.game_task,"ax",@progbits
+ 262              		.align	1
+ 264              	game_task:
+ 265 0000 93F71500 		andi	a5,a1,1
+ 266 0004 6385071E 		beqz	a5,.L54
+ 267 0008 B7070000 		lui	a5,%hi(.LANCHOR1)
+ 268 000c 83A60700 		lw	a3,%lo(.LANCHOR1)(a5)
+ 269 0010 B7070000 		lui	a5,%hi(.LANCHOR2)
+ 270 0014 03A70700 		lw	a4,%lo(.LANCHOR2)(a5)
+ 271 0018 1D71     		addi	sp,sp,-96
+ 272 001a 86CE     		sw	ra,92(sp)
+ 273 001c 0907     		addi	a4,a4,2
+ 274 001e A2CC     		sw	s0,88(sp)
+ 275 0020 A6CA     		sw	s1,84(sp)
+ 276 0022 CAC8     		sw	s2,80(sp)
+ 277 0024 CEC6     		sw	s3,76(sp)
+ 278 0026 D2C4     		sw	s4,72(sp)
+ 279 0028 D6C2     		sw	s5,68(sp)
+ 280 002a DAC0     		sw	s6,64(sp)
+ 281 002c 5EDE     		sw	s7,60(sp)
+ 282 002e 62DC     		sw	s8,56(sp)
+ 283 0030 66DA     		sw	s9,52(sp)
+ 284 0032 6AD8     		sw	s10,48(sp)
+ 285 0034 6ED6     		sw	s11,44(sp)
+ 286 0036 0D8B     		andi	a4,a4,3
+ 287 0038 93870700 		addi	a5,a5,%lo(.LANCHOR2)
+GAS LISTING /tmp/ccn43CSP.s 			page 6
+
+
+ 288 003c 6303D700 		beq	a4,a3,.L37
+ 289 0040 94C3     		sw	a3,0(a5)
+ 290              	.L37:
+ 291 0042 9C43     		lw	a5,0(a5)
+ 292 0044 B70D0000 		lui	s11,%hi(.LANCHOR4)
+ 293 0048 13870D00 		addi	a4,s11,%lo(.LANCHOR4)
+ 294 004c 832C0700 		lw	s9,0(a4)
+ 295 0050 032D4700 		lw	s10,4(a4)
+ 296 0054 938D0D00 		addi	s11,s11,%lo(.LANCHOR4)
+ 297 0058 B1EF     		bnez	a5,.L38
+ 298 005a 7D1D     		addi	s10,s10,-1
+ 299              	.L39:
+ 300 005c 2EC6     		sw	a1,12(sp)
+ 301 005e 6685     		mv	a0,s9
+ 302 0060 EA85     		mv	a1,s10
+ 303 0062 97000000 		call	check_collision
+ 303      E7800000 
+ 304 006a AA8A     		mv	s5,a0
+ 305 006c 25C1     		beqz	a0,.L42
+ 306 006e 97000000 		call	show_score
+ 306      E7800000 
+ 307 0076 B7070000 		lui	a5,%hi(.LANCHOR6)
+ 308 007a 03C50700 		lbu	a0,%lo(.LANCHOR6)(a5)
+ 309 007e 8545     		li	a1,1
+ 310 0080 97000000 		call	tmos_stop_task
+ 310      E7800000 
+ 311 0088 97000000 		call	return_to_menu
+ 311      E7800000 
+ 312              	.L43:
+ 313 0090 B247     		lw	a5,12(sp)
+ 314 0092 F640     		lw	ra,92(sp)
+ 315 0094 6644     		lw	s0,88(sp)
+ 316 0096 D644     		lw	s1,84(sp)
+ 317 0098 4649     		lw	s2,80(sp)
+ 318 009a B649     		lw	s3,76(sp)
+ 319 009c 264A     		lw	s4,72(sp)
+ 320 009e 964A     		lw	s5,68(sp)
+ 321 00a0 064B     		lw	s6,64(sp)
+ 322 00a2 F25B     		lw	s7,60(sp)
+ 323 00a4 625C     		lw	s8,56(sp)
+ 324 00a6 D25C     		lw	s9,52(sp)
+ 325 00a8 425D     		lw	s10,48(sp)
+ 326 00aa B25D     		lw	s11,44(sp)
+ 327 00ac 13C51700 		xori	a0,a5,1
+ 328 00b0 2561     		addi	sp,sp,96
+ 329 00b2 8280     		jr	ra
+ 330              	.L38:
+ 331 00b4 0947     		li	a4,2
+ 332 00b6 6394E700 		bne	a5,a4,.L40
+ 333 00ba 050D     		addi	s10,s10,1
+ 334 00bc 45B7     		j	.L39
+ 335              	.L40:
+ 336 00be 0D47     		li	a4,3
+ 337 00c0 6394E700 		bne	a5,a4,.L41
+ 338 00c4 FD1C     		addi	s9,s9,-1
+ 339 00c6 59BF     		j	.L39
+ 340              	.L41:
+GAS LISTING /tmp/ccn43CSP.s 			page 7
+
+
+ 341 00c8 850C     		addi	s9,s9,1
+ 342 00ca 49BF     		j	.L39
+ 343              	.L42:
+ 344 00cc 37090000 		lui	s2,%hi(.LANCHOR7)
+ 345 00d0 93070900 		addi	a5,s2,%lo(.LANCHOR7)
+ 346 00d4 9843     		lw	a4,0(a5)
+ 347 00d6 03AB4700 		lw	s6,4(a5)
+ 348 00da 13090900 		addi	s2,s2,%lo(.LANCHOR7)
+ 349 00de 3AC4     		sw	a4,8(sp)
+ 350 00e0 6396EC00 		bne	s9,a4,.L44
+ 351 00e4 33076D41 		sub	a4,s10,s6
+ 352 00e8 933A1700 		seqz	s5,a4
+ 353              	.L44:
+ 354 00ec 370A0000 		lui	s4,%hi(.LANCHOR3)
+ 355 00f0 83290A00 		lw	s3,%lo(.LANCHOR3)(s4)
+ 356 00f4 130A0A00 		addi	s4,s4,%lo(.LANCHOR3)
+ 357 00f8 9384F9FF 		addi	s1,s3,-1
+ 358 00fc 13943400 		slli	s0,s1,3
+ 359 0100 B3878D00 		add	a5,s11,s0
+ 360 0104 03AC0700 		lw	s8,0(a5)
+ 361 0108 83AB4700 		lw	s7,4(a5)
+ 362 010c 63990A00 		bnez	s5,.L45
+ 363 0110 0146     		li	a2,0
+ 364 0112 DE85     		mv	a1,s7
+ 365 0114 6285     		mv	a0,s8
+ 366 0116 97000000 		call	draw_pixel
+ 366      E7800000 
+ 367              	.L45:
+ 368 011e 2104     		addi	s0,s0,8
+ 369 0120 6E94     		add	s0,s11,s0
+ 370 0122 A287     		mv	a5,s0
+ 371 0124 01A8     		j	.L46
+ 372              	.L47:
+ 373 0126 03A687FF 		lw	a2,-8(a5)
+ 374 012a FD14     		addi	s1,s1,-1
+ 375 012c 90C3     		sw	a2,0(a5)
+ 376 012e 03A6C7FF 		lw	a2,-4(a5)
+ 377 0132 D0C3     		sw	a2,4(a5)
+ 378              	.L46:
+ 379 0134 E117     		addi	a5,a5,-8
+ 380 0136 E34890FE 		bgtz	s1,.L47
+ 381 013a 0546     		li	a2,1
+ 382 013c EA85     		mv	a1,s10
+ 383 013e 6685     		mv	a0,s9
+ 384 0140 B7040000 		lui	s1,%hi(.LANCHOR8)
+ 385 0144 23A09D01 		sw	s9,0(s11)
+ 386 0148 23A2AD01 		sw	s10,4(s11)
+ 387 014c 93840400 		addi	s1,s1,%lo(.LANCHOR8)
+ 388 0150 97000000 		call	draw_pixel
+ 388      E7800000 
+ 389 0158 638F0A04 		beqz	s5,.L49
+ 390 015c 37070000 		lui	a4,%hi(.LANCHOR5)
+ 391 0160 13060700 		addi	a2,a4,%lo(.LANCHOR5)
+ 392 0164 83570600 		lhu	a5,0(a2)
+ 393 0168 930C0700 		addi	s9,a4,%lo(.LANCHOR5)
+ 394 016c 8507     		addi	a5,a5,1
+ 395 016e 2310F600 		sh	a5,0(a2)
+GAS LISTING /tmp/ccn43CSP.s 			page 8
+
+
+ 396 0172 93073006 		li	a5,99
+ 397 0176 63CA3701 		bgt	s3,a5,.L50
+ 398 017a 93871900 		addi	a5,s3,1
+ 399 017e 23208401 		sw	s8,0(s0)
+ 400 0182 23227401 		sw	s7,4(s0)
+ 401 0186 2320FA00 		sw	a5,0(s4)
+ 402              	.L50:
+ 403 018a 2245     		lw	a0,8(sp)
+ 404 018c 0146     		li	a2,0
+ 405 018e DA85     		mv	a1,s6
+ 406 0190 97000000 		call	draw_pixel
+ 406      E7800000 
+ 407 0198 97000000 		call	generate_food
+ 407      E7800000 
+ 408 01a0 83D70C00 		lhu	a5,0(s9)
+ 409 01a4 858B     		andi	a5,a5,1
+ 410 01a6 81EB     		bnez	a5,.L49
+ 411 01a8 9C40     		lw	a5,0(s1)
+ 412 01aa 13074006 		li	a4,100
+ 413 01ae 6354F700 		ble	a5,a4,.L49
+ 414 01b2 B117     		addi	a5,a5,-20
+ 415 01b4 9CC0     		sw	a5,0(s1)
+ 416              	.L49:
+ 417 01b6 83254900 		lw	a1,4(s2)
+ 418 01ba 03250900 		lw	a0,0(s2)
+ 419 01be 0546     		li	a2,1
+ 420 01c0 97000000 		call	draw_pixel
+ 420      E7800000 
+ 421 01c8 9040     		lw	a2,0(s1)
+ 422 01ca 9307803E 		li	a5,1000
+ 423 01ce 8545     		li	a1,1
+ 424 01d0 B387C702 		mul	a5,a5,a2
+ 425 01d4 13061027 		li	a2,625
+ 426 01d8 33D6C702 		divu	a2,a5,a2
+ 427 01dc B7070000 		lui	a5,%hi(.LANCHOR6)
+ 428 01e0 03C50700 		lbu	a0,%lo(.LANCHOR6)(a5)
+ 429 01e4 97000000 		call	tmos_start_task
+ 429      E7800000 
+ 430 01ec 55B5     		j	.L43
+ 431              	.L54:
+ 432 01ee 0145     		li	a0,0
+ 433 01f0 8280     		ret
+ 435              		.section	.text.game_init,"ax",@progbits
+ 436              		.align	1
+ 437              		.globl	game_init
+ 439              	game_init:
+ 440 0000 37050000 		lui	a0,%hi(game_task)
+ 441 0004 4111     		addi	sp,sp,-16
+ 442 0006 13050500 		addi	a0,a0,%lo(game_task)
+ 443 000a 06C6     		sw	ra,12(sp)
+ 444 000c 97000000 		call	TMOS_ProcessEventRegister
+ 444      E7800000 
+ 445 0014 B240     		lw	ra,12(sp)
+ 446 0016 B7070000 		lui	a5,%hi(.LANCHOR6)
+ 447 001a 2380A700 		sb	a0,%lo(.LANCHOR6)(a5)
+ 448 001e 4101     		addi	sp,sp,16
+ 449 0020 8280     		jr	ra
+GAS LISTING /tmp/ccn43CSP.s 			page 9
+
+
+ 451              		.section	.text.game_start,"ax",@progbits
+ 452              		.align	1
+ 453              		.globl	game_start
+ 455              	game_start:
+ 456 0000 0111     		addi	sp,sp,-32
+ 457 0002 B7070000 		lui	a5,%hi(.LANCHOR0)
+ 458 0006 13068005 		li	a2,88
+ 459 000a 8145     		li	a1,0
+ 460 000c 06CE     		sw	ra,28(sp)
+ 461 000e 22CC     		sw	s0,24(sp)
+ 462 0010 23A0A700 		sw	a0,%lo(.LANCHOR0)(a5)
+ 463 0014 97000000 		call	memset
+ 463      E7800000 
+ 464 001c 3000     		addi	a2,sp,8
+ 465 001e 93056100 		addi	a1,sp,6
+ 466 0022 9306A100 		addi	a3,sp,10
+ 467 0026 9307E100 		addi	a5,sp,14
+ 468 002a 7800     		addi	a4,sp,12
+ 469 002c 4800     		addi	a0,sp,4
+ 470 002e 97000000 		call	RTC_GetTime
+ 470      E7800000 
+ 471 0036 8357A100 		lhu	a5,10(sp)
+ 472 003a 0565     		li	a0,4096
+ 473 003c 130505E1 		addi	a0,a0,-496
+ 474 0040 B387A702 		mul	a5,a5,a0
+ 475 0044 0355C100 		lhu	a0,12(sp)
+ 476 0048 1307C003 		li	a4,60
+ 477 004c 37040000 		lui	s0,%hi(.LANCHOR8)
+ 478 0050 13040400 		addi	s0,s0,%lo(.LANCHOR8)
+ 479 0054 3305E502 		mul	a0,a0,a4
+ 480 0058 AA97     		add	a5,a5,a0
+ 481 005a 0355E100 		lhu	a0,14(sp)
+ 482 005e 3E95     		add	a0,a5,a0
+ 483 0060 97000000 		call	srand
+ 483      E7800000 
+ 484 0068 0547     		li	a4,1
+ 485 006a B7070000 		lui	a5,%hi(.LANCHOR3)
+ 486 006e 23A0E700 		sw	a4,%lo(.LANCHOR3)(a5)
+ 487 0072 B7070000 		lui	a5,%hi(.LANCHOR4)
+ 488 0076 93870700 		addi	a5,a5,%lo(.LANCHOR4)
+ 489 007a D946     		li	a3,22
+ 490 007c 94C3     		sw	a3,0(a5)
+ 491 007e 9546     		li	a3,5
+ 492 0080 D4C3     		sw	a3,4(a5)
+ 493 0082 B7070000 		lui	a5,%hi(.LANCHOR1)
+ 494 0086 23A0E700 		sw	a4,%lo(.LANCHOR1)(a5)
+ 495 008a B7070000 		lui	a5,%hi(.LANCHOR2)
+ 496 008e 23A0E700 		sw	a4,%lo(.LANCHOR2)(a5)
+ 497 0092 B7070000 		lui	a5,%hi(.LANCHOR5)
+ 498 0096 23900700 		sh	zero,%lo(.LANCHOR5)(a5)
+ 499 009a 9307C012 		li	a5,300
+ 500 009e 1CC0     		sw	a5,0(s0)
+ 501 00a0 97000000 		call	generate_food
+ 501      E7800000 
+ 502 00a8 B7070000 		lui	a5,%hi(.LANCHOR7)
+ 503 00ac 93870700 		addi	a5,a5,%lo(.LANCHOR7)
+ 504 00b0 CC43     		lw	a1,4(a5)
+GAS LISTING /tmp/ccn43CSP.s 			page 10
+
+
+ 505 00b2 8843     		lw	a0,0(a5)
+ 506 00b4 0546     		li	a2,1
+ 507 00b6 97000000 		call	draw_pixel
+ 507      E7800000 
+ 508 00be B7050000 		lui	a1,%hi(on_turn_left)
+ 509 00c2 93850500 		addi	a1,a1,%lo(on_turn_left)
+ 510 00c6 0145     		li	a0,0
+ 511 00c8 97000000 		call	btn_onOnePress
+ 511      E7800000 
+ 512 00d0 B7050000 		lui	a1,%hi(on_turn_right)
+ 513 00d4 93850500 		addi	a1,a1,%lo(on_turn_right)
+ 514 00d8 0545     		li	a0,1
+ 515 00da 97000000 		call	btn_onOnePress
+ 515      E7800000 
+ 516 00e2 1040     		lw	a2,0(s0)
+ 517 00e4 9307803E 		li	a5,1000
+ 518 00e8 8545     		li	a1,1
+ 519 00ea B387C702 		mul	a5,a5,a2
+ 520 00ee 13061027 		li	a2,625
+ 521 00f2 33D6C702 		divu	a2,a5,a2
+ 522 00f6 B7070000 		lui	a5,%hi(.LANCHOR6)
+ 523 00fa 03C50700 		lbu	a0,%lo(.LANCHOR6)(a5)
+ 524 00fe 97000000 		call	tmos_start_task
+ 524      E7800000 
+ 525 0106 F240     		lw	ra,28(sp)
+ 526 0108 6244     		lw	s0,24(sp)
+ 527 010a 0561     		addi	sp,sp,32
+ 528 010c 8280     		jr	ra
+ 530              		.section	.bss.snake,"aw",@nobits
+ 531              		.align	2
+ 532              		.set	.LANCHOR4,. + 0
+ 535              	snake:
+ 536 0000 00000000 		.zero	800
+ 536      00000000 
+ 536      00000000 
+ 536      00000000 
+ 536      00000000 
+ 537              		.section	.sbss.cur_dir,"aw",@nobits
+ 538              		.align	2
+ 539              		.set	.LANCHOR2,. + 0
+ 542              	cur_dir:
+ 543 0000 00000000 		.zero	4
+ 544              		.section	.sbss.food,"aw",@nobits
+ 545              		.align	2
+ 546              		.set	.LANCHOR7,. + 0
+ 549              	food:
+ 550 0000 00000000 		.zero	8
+ 550      00000000 
+ 551              		.section	.sbss.game_fb,"aw",@nobits
+ 552              		.align	2
+ 553              		.set	.LANCHOR0,. + 0
+ 556              	game_fb:
+ 557 0000 00000000 		.zero	4
+ 558              		.section	.sbss.next_dir,"aw",@nobits
+ 559              		.align	2
+ 560              		.set	.LANCHOR1,. + 0
+ 563              	next_dir:
+GAS LISTING /tmp/ccn43CSP.s 			page 11
+
+
+ 564 0000 00000000 		.zero	4
+ 565              		.section	.sbss.score,"aw",@nobits
+ 566              		.align	1
+ 567              		.set	.LANCHOR5,. + 0
+ 570              	score:
+ 571 0000 0000     		.zero	2
+ 572              		.section	.sbss.snake_length,"aw",@nobits
+ 573              		.align	2
+ 574              		.set	.LANCHOR3,. + 0
+ 577              	snake_length:
+ 578 0000 00000000 		.zero	4
+ 579              		.section	.sbss.speed_ms,"aw",@nobits
+ 580              		.align	2
+ 581              		.set	.LANCHOR8,. + 0
+ 584              	speed_ms:
+ 585 0000 00000000 		.zero	4
+ 586              		.section	.sdata.game_taskid,"aw"
+ 587              		.set	.LANCHOR6,. + 0
+ 590              	game_taskid:
+ 591 0000 FF       		.byte	-1
+ 592              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/ccn43CSP.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 game.c
+     /tmp/ccn43CSP.s:7      .text.draw_pixel:0000000000000000 draw_pixel
+     /tmp/ccn43CSP.s:35     .text.on_turn_left:0000000000000000 on_turn_left
+     /tmp/ccn43CSP.s:47     .text.on_turn_right:0000000000000000 on_turn_right
+     /tmp/ccn43CSP.s:59     .text.check_collision:0000000000000000 check_collision
+     /tmp/ccn43CSP.s:94     .text.game_puts.constprop.2:0000000000000000 game_puts.constprop.2
+     /tmp/ccn43CSP.s:138    .text.show_score:0000000000000000 show_score
+     /tmp/ccn43CSP.s:205    .text.generate_food:0000000000000000 generate_food
+     /tmp/ccn43CSP.s:264    .text.game_task:0000000000000000 game_task
+     /tmp/ccn43CSP.s:439    .text.game_init:0000000000000000 game_init
+     /tmp/ccn43CSP.s:455    .text.game_start:0000000000000000 game_start
+     /tmp/ccn43CSP.s:532    .bss.snake:0000000000000000 .LANCHOR4
+     /tmp/ccn43CSP.s:535    .bss.snake:0000000000000000 snake
+     /tmp/ccn43CSP.s:539    .sbss.cur_dir:0000000000000000 .LANCHOR2
+     /tmp/ccn43CSP.s:542    .sbss.cur_dir:0000000000000000 cur_dir
+     /tmp/ccn43CSP.s:546    .sbss.food:0000000000000000 .LANCHOR7
+     /tmp/ccn43CSP.s:549    .sbss.food:0000000000000000 food
+     /tmp/ccn43CSP.s:553    .sbss.game_fb:0000000000000000 .LANCHOR0
+     /tmp/ccn43CSP.s:556    .sbss.game_fb:0000000000000000 game_fb
+     /tmp/ccn43CSP.s:560    .sbss.next_dir:0000000000000000 .LANCHOR1
+     /tmp/ccn43CSP.s:563    .sbss.next_dir:0000000000000000 next_dir
+     /tmp/ccn43CSP.s:567    .sbss.score:0000000000000000 .LANCHOR5
+     /tmp/ccn43CSP.s:570    .sbss.score:0000000000000000 score
+     /tmp/ccn43CSP.s:574    .sbss.snake_length:0000000000000000 .LANCHOR3
+     /tmp/ccn43CSP.s:577    .sbss.snake_length:0000000000000000 snake_length
+     /tmp/ccn43CSP.s:581    .sbss.speed_ms:0000000000000000 .LANCHOR8
+     /tmp/ccn43CSP.s:584    .sbss.speed_ms:0000000000000000 speed_ms
+     /tmp/ccn43CSP.s:587    .sdata.game_taskid:0000000000000000 .LANCHOR6
+     /tmp/ccn43CSP.s:590    .sdata.game_taskid:0000000000000000 game_taskid
+     /tmp/ccn43CSP.s:25     .text.draw_pixel:0000000000000032 .L1
+     /tmp/ccn43CSP.s:27     .text.draw_pixel:0000000000000034 .L3
+     /tmp/ccn43CSP.s:23     .text.draw_pixel:000000000000002e .L4
+     /tmp/ccn43CSP.s:87     .text.check_collision:0000000000000042 .L14
+     /tmp/ccn43CSP.s:74     .text.check_collision:000000000000002a .L7
+     /tmp/ccn43CSP.s:78     .text.check_collision:0000000000000030 .L11
+     /tmp/ccn43CSP.s:83     .text.check_collision:000000000000003c .L10
+     /tmp/ccn43CSP.s:71     .text.check_collision:0000000000000024 .L9
+     /tmp/ccn43CSP.s:111    .text.game_puts.constprop.2:000000000000002e .L20
+     /tmp/ccn43CSP.s:131    .text.game_puts.constprop.2:0000000000000064 .L18
+     /tmp/ccn43CSP.s:118    .text.game_puts.constprop.2:000000000000003c .L19
+     /tmp/ccn43CSP.s:107    .text.game_puts.constprop.2:0000000000000026 .L17
+     /tmp/ccn43CSP.s:153    .text.show_score:0000000000000030 .L23
+     /tmp/ccn43CSP.s:243    .text.generate_food:0000000000000068 .L28
+     /tmp/ccn43CSP.s:226    .text.generate_food:0000000000000032 .L29
+     /tmp/ccn43CSP.s:217    .text.generate_food:0000000000000016 .L30
+     /tmp/ccn43CSP.s:215    .text.generate_food:0000000000000014 .L27
+     /tmp/ccn43CSP.s:431    .text.game_task:00000000000001ee .L54
+     /tmp/ccn43CSP.s:290    .text.game_task:0000000000000042 .L37
+     /tmp/ccn43CSP.s:330    .text.game_task:00000000000000b4 .L38
+     /tmp/ccn43CSP.s:343    .text.game_task:00000000000000cc .L42
+     /tmp/ccn43CSP.s:335    .text.game_task:00000000000000be .L40
+     /tmp/ccn43CSP.s:299    .text.game_task:000000000000005c .L39
+     /tmp/ccn43CSP.s:340    .text.game_task:00000000000000c8 .L41
+     /tmp/ccn43CSP.s:353    .text.game_task:00000000000000ec .L44
+     /tmp/ccn43CSP.s:367    .text.game_task:000000000000011e .L45
+     /tmp/ccn43CSP.s:378    .text.game_task:0000000000000134 .L46
+GAS LISTING /tmp/ccn43CSP.s 			page 13
+
+
+     /tmp/ccn43CSP.s:372    .text.game_task:0000000000000126 .L47
+     /tmp/ccn43CSP.s:416    .text.game_task:00000000000001b6 .L49
+     /tmp/ccn43CSP.s:402    .text.game_task:000000000000018a .L50
+     /tmp/ccn43CSP.s:312    .text.game_task:0000000000000090 .L43
+
+UNDEFINED SYMBOLS
+font3x5
+data_read_highscore
+data_write_highscore
+memset
+mDelaymS
+rand
+tmos_stop_task
+return_to_menu
+tmos_start_task
+TMOS_ProcessEventRegister
+RTC_GetTime
+srand
+btn_onOnePress

@@ -1,0 +1,141 @@
+GAS LISTING /tmp/cc6JBpCg.s 			page 1
+
+
+   1              		.file	"legacy.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.write_handler,"ax",@progbits
+   5              		.align	1
+   7              	write_handler:
+   8 0000 83C78500 		lbu	a5,8(a1)
+   9 0004 2147     		li	a4,8
+  10 0006 93F70702 		andi	a5,a5,32
+  11 000a 95EF     		bnez	a5,.L7
+  12 000c D841     		lw	a4,4(a1)
+  13 000e 930510EE 		li	a1,-287
+  14 0012 83471700 		lbu	a5,1(a4)
+  15 0016 03470700 		lbu	a4,0(a4)
+  16 001a A207     		slli	a5,a5,8
+  17 001c D98F     		or	a5,a5,a4
+  18 001e C207     		slli	a5,a5,16
+  19 0020 C187     		srai	a5,a5,16
+  20 0022 2947     		li	a4,10
+  21 0024 6391B702 		bne	a5,a1,.L7
+  22 0028 4111     		addi	sp,sp,-16
+  23 002a B685     		mv	a1,a3
+  24 002c 3285     		mv	a0,a2
+  25 002e 06C6     		sw	ra,12(sp)
+  26 0030 97000000 		call	legacy_ble_rx
+  26      E7800000 
+  27 0038 3947     		li	a4,14
+  28 003a 11E1     		bnez	a0,.L2
+  29 003c 0147     		li	a4,0
+  30              	.L2:
+  31 003e B240     		lw	ra,12(sp)
+  32 0040 3A85     		mv	a0,a4
+  33 0042 4101     		addi	sp,sp,16
+  34 0044 8280     		jr	ra
+  35              	.L7:
+  36 0046 3A85     		mv	a0,a4
+  37 0048 8280     		ret
+  39              		.section	.text.legacy_registerService,"ax",@progbits
+  40              		.align	1
+  41              		.globl	legacy_registerService
+  43              	legacy_registerService:
+  44 0000 B7060000 		lui	a3,%hi(.LANCHOR0)
+  45 0004 37050000 		lui	a0,%hi(.LANCHOR1)
+  46 0008 4111     		addi	sp,sp,-16
+  47 000a 93860600 		addi	a3,a3,%lo(.LANCHOR0)
+  48 000e 4146     		li	a2,16
+  49 0010 8D45     		li	a1,3
+  50 0012 13050500 		addi	a0,a0,%lo(.LANCHOR1)
+  51 0016 06C6     		sw	ra,12(sp)
+  52 0018 97000000 		call	GATTServApp_RegisterService
+  52      E7800000 
+  53 0020 B240     		lw	ra,12(sp)
+  54 0022 4101     		addi	sp,sp,16
+  55 0024 8280     		jr	ra
+  57              		.section	.bss.RxCharVal,"aw",@nobits
+  58              		.align	2
+  61              	RxCharVal:
+GAS LISTING /tmp/cc6JBpCg.s 			page 2
+
+
+  62 0000 00000000 		.zero	16
+  62      00000000 
+  62      00000000 
+  62      00000000 
+  63              		.section	.data.attr_table,"aw"
+  64              		.align	2
+  65              		.set	.LANCHOR1,. + 0
+  68              	attr_table:
+  69 0000 02       		.byte	2
+  70 0001 000000   		.zero	3
+  71 0004 00000000 		.word	primaryServiceUUID
+  72 0008 01       		.byte	1
+  73 0009 00       		.zero	1
+  74 000a 0000     		.half	0
+  75 000c 00000000 		.word	service
+  76 0010 02       		.byte	2
+  77 0011 000000   		.zero	3
+  78 0014 00000000 		.word	characterUUID
+  79 0018 01       		.byte	1
+  80 0019 00       		.zero	1
+  81 001a 0000     		.half	0
+  82 001c 00000000 		.word	RxCharProps
+  83 0020 02       		.byte	2
+  84 0021 000000   		.zero	3
+  85 0024 00000000 		.word	RxCharUUID
+  86 0028 02       		.byte	2
+  87 0029 00       		.zero	1
+  88 002a 0000     		.half	0
+  89 002c 00000000 		.word	RxCharVal
+  90              		.section	.data.service_handlers,"aw"
+  91              		.align	2
+  92              		.set	.LANCHOR0,. + 0
+  95              	service_handlers:
+  96 0000 00000000 		.word	0
+  97 0004 00000000 		.word	write_handler
+  98 0008 00000000 		.word	0
+  99              		.section	.sdata.RxCharProps,"aw"
+ 102              	RxCharProps:
+ 103 0000 08       		.byte	8
+ 104              		.section	.sdata2.RxCharUUID,"a"
+ 105              		.align	1
+ 108              	RxCharUUID:
+ 109 0000 E1FE     		.half	-287
+ 110              		.section	.sdata2.ServiceUUID,"a"
+ 111              		.align	1
+ 114              	ServiceUUID:
+ 115 0000 E0FE     		.half	-288
+ 116              		.section	.sdata2.service,"a"
+ 117              		.align	2
+ 120              	service:
+ 121 0000 02       		.byte	2
+ 122 0001 000000   		.zero	3
+ 123 0004 00000000 		.word	ServiceUUID
+ 124              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/cc6JBpCg.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 legacy.c
+     /tmp/cc6JBpCg.s:7      .text.write_handler:0000000000000000 write_handler
+     /tmp/cc6JBpCg.s:43     .text.legacy_registerService:0000000000000000 legacy_registerService
+     /tmp/cc6JBpCg.s:61     .bss.RxCharVal:0000000000000000 RxCharVal
+     /tmp/cc6JBpCg.s:65     .data.attr_table:0000000000000000 .LANCHOR1
+     /tmp/cc6JBpCg.s:68     .data.attr_table:0000000000000000 attr_table
+     /tmp/cc6JBpCg.s:120    .sdata2.service:0000000000000000 service
+     /tmp/cc6JBpCg.s:102    .sdata.RxCharProps:0000000000000000 RxCharProps
+     /tmp/cc6JBpCg.s:108    .sdata2.RxCharUUID:0000000000000000 RxCharUUID
+     /tmp/cc6JBpCg.s:92     .data.service_handlers:0000000000000000 .LANCHOR0
+     /tmp/cc6JBpCg.s:95     .data.service_handlers:0000000000000000 service_handlers
+     /tmp/cc6JBpCg.s:114    .sdata2.ServiceUUID:0000000000000000 ServiceUUID
+     /tmp/cc6JBpCg.s:35     .text.write_handler:0000000000000046 .L7
+     /tmp/cc6JBpCg.s:30     .text.write_handler:000000000000003e .L2
+
+UNDEFINED SYMBOLS
+legacy_ble_rx
+GATTServApp_RegisterService
+primaryServiceUUID
+characterUUID

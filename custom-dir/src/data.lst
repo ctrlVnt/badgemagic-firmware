@@ -1,0 +1,385 @@
+GAS LISTING /tmp/cc4YUtnu.s 			page 1
+
+
+   1              		.file	"data.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.bigendian16_sum,"ax",@progbits
+   5              		.align	1
+   6              		.globl	bigendian16_sum
+   8              	bigendian16_sum:
+   9 0000 8146     		li	a3,0
+  10              	.L2:
+  11 0002 1386F5FF 		addi	a2,a1,-1
+  12 0006 6344B000 		bgtz	a1,.L3
+  13 000a 3685     		mv	a0,a3
+  14 000c 8280     		ret
+  15              	.L3:
+  16 000e 93171600 		slli	a5,a2,1
+  17 0012 AA97     		add	a5,a0,a5
+  18 0014 03D70700 		lhu	a4,0(a5)
+  19 0018 B285     		mv	a1,a2
+  20 001a 93578700 		srli	a5,a4,8
+  21 001e 2207     		slli	a4,a4,8
+  22 0020 D98F     		or	a5,a5,a4
+  23 0022 C207     		slli	a5,a5,16
+  24 0024 C183     		srli	a5,a5,16
+  25 0026 BE96     		add	a3,a3,a5
+  26 0028 E9BF     		j	.L2
+  28              		.section	.text.data_flatSave,"ax",@progbits
+  29              		.align	1
+  30              		.globl	data_flatSave
+  32              	data_flatSave:
+  33 0000 4111     		addi	sp,sp,-16
+  34 0002 22C4     		sw	s0,8(sp)
+  35 0004 26C2     		sw	s1,4(sp)
+  36 0006 2E84     		mv	s0,a1
+  37 0008 AA84     		mv	s1,a0
+  38 000a AE86     		mv	a3,a1
+  39 000c 0146     		li	a2,0
+  40 000e 8145     		li	a1,0
+  41 0010 2545     		li	a0,9
+  42 0012 06C6     		sw	ra,12(sp)
+  43 0014 97000000 		call	FLASH_EEPROM_CMD
+  43      E7800000 
+  44 001c 09ED     		bnez	a0,.L4
+  45 001e A286     		mv	a3,s0
+  46 0020 2244     		lw	s0,8(sp)
+  47 0022 B240     		lw	ra,12(sp)
+  48 0024 2686     		mv	a2,s1
+  49 0026 9244     		lw	s1,4(sp)
+  50 0028 8145     		li	a1,0
+  51 002a 2945     		li	a0,10
+  52 002c 4101     		addi	sp,sp,16
+  53 002e 17030000 		tail	FLASH_EEPROM_CMD
+  53      67000300 
+  54              	.L4:
+  55 0036 B240     		lw	ra,12(sp)
+  56 0038 2244     		lw	s0,8(sp)
+  57 003a 9244     		lw	s1,4(sp)
+  58 003c 4101     		addi	sp,sp,16
+GAS LISTING /tmp/cc4YUtnu.s 			page 2
+
+
+  59 003e 8280     		jr	ra
+  61              		.section	.text.data_get_header,"ax",@progbits
+  62              		.align	1
+  63              		.globl	data_get_header
+  65              	data_get_header:
+  66 0000 2A86     		mv	a2,a0
+  67 0002 93060004 		li	a3,64
+  68 0006 8145     		li	a1,0
+  69 0008 2D45     		li	a0,11
+  70 000a 17030000 		tail	FLASH_EEPROM_CMD
+  70      67000300 
+  72              		.section	.text.data_flash2newmem,"ax",@progbits
+  73              		.align	1
+  74              		.globl	data_flash2newmem
+  76              	data_flash2newmem:
+  77 0000 5971     		addi	sp,sp,-112
+  78 0002 CAD0     		sw	s2,96(sp)
+  79 0004 2A89     		mv	s2,a0
+  80 0006 6800     		addi	a0,sp,12
+  81 0008 86D6     		sw	ra,108(sp)
+  82 000a A2D4     		sw	s0,104(sp)
+  83 000c A6D2     		sw	s1,100(sp)
+  84 000e CECE     		sw	s3,92(sp)
+  85 0010 AE84     		mv	s1,a1
+  86 0012 97000000 		call	data_get_header
+  86      E7800000 
+  87 001a B7050000 		lui	a1,%hi(.LC0)
+  88 001e 1546     		li	a2,5
+  89 0020 93850500 		addi	a1,a1,%lo(.LC0)
+  90 0024 6800     		addi	a0,sp,12
+  91 0026 97000000 		call	memcmp
+  91      E7800000 
+  92 002e 0144     		li	s0,0
+  93 0030 29ED     		bnez	a0,.L9
+  94 0032 93878400 		addi	a5,s1,8
+  95 0036 8607     		slli	a5,a5,1
+  96 0038 9808     		addi	a4,sp,80
+  97 003a BA97     		add	a5,a4,a5
+  98 003c 83D7C7FB 		lhu	a5,-68(a5)
+  99 0040 AD49     		li	s3,11
+ 100 0042 13D48700 		srli	s0,a5,8
+ 101 0046 A207     		slli	a5,a5,8
+ 102 0048 5D8C     		or	s0,s0,a5
+ 103 004a 33043403 		mul	s0,s0,s3
+ 104 004e 4204     		slli	s0,s0,16
+ 105 0050 4180     		srli	s0,s0,16
+ 106 0052 05CC     		beqz	s0,.L9
+ 107 0054 A685     		mv	a1,s1
+ 108 0056 6808     		addi	a0,sp,28
+ 109 0058 97000000 		call	bigendian16_sum
+ 109      E7800000 
+ 110 0060 AA84     		mv	s1,a0
+ 111 0062 2285     		mv	a0,s0
+ 112 0064 97000000 		call	malloc
+ 112      E7800000 
+ 113 006c B3853403 		mul	a1,s1,s3
+ 114 0070 2A86     		mv	a2,a0
+GAS LISTING /tmp/cc4YUtnu.s 			page 3
+
+
+ 115 0072 2320A900 		sw	a0,0(s2)
+ 116 0076 A286     		mv	a3,s0
+ 117 0078 2D45     		li	a0,11
+ 118 007a 93850504 		addi	a1,a1,64
+ 119 007e C205     		slli	a1,a1,16
+ 120 0080 C181     		srli	a1,a1,16
+ 121 0082 97000000 		call	FLASH_EEPROM_CMD
+ 121      E7800000 
+ 122              	.L9:
+ 123 008a 2285     		mv	a0,s0
+ 124 008c B650     		lw	ra,108(sp)
+ 125 008e 2654     		lw	s0,104(sp)
+ 126 0090 9654     		lw	s1,100(sp)
+ 127 0092 0659     		lw	s2,96(sp)
+ 128 0094 F649     		lw	s3,92(sp)
+ 129 0096 6561     		addi	sp,sp,112
+ 130 0098 8280     		jr	ra
+ 132              		.section	.text.chunk2buffer,"ax",@progbits
+ 133              		.align	1
+ 134              		.globl	chunk2buffer
+ 136              	chunk2buffer:
+ 137 0000 AD47     		li	a5,11
+ 138 0002 B3D5F502 		divu	a1,a1,a5
+ 139 0006 0147     		li	a4,0
+ 140 0008 AD4E     		li	t4,11
+ 141 000a 7D5F     		li	t5,-1
+ 142 000c C14F     		li	t6,16
+ 143 000e 6343B700 		bgt	a1,a4,.L26
+ 144 0012 8280     		ret
+ 145              	.L26:
+ 146 0014 4111     		addi	sp,sp,-16
+ 147              	.L21:
+ 148 0016 330ED703 		mul	t3,a4,t4
+ 149 001a 8A88     		mv	a7,sp
+ 150 001c 02C0     		sw	zero,0(sp)
+ 151 001e 02C2     		sw	zero,4(sp)
+ 152 0020 02C4     		sw	zero,8(sp)
+ 153 0022 02C6     		sw	zero,12(sp)
+ 154 0024 1D43     		li	t1,7
+ 155 0026 C682     		mv	t0,a7
+ 156 0028 2A9E     		add	t3,a0,t3
+ 157              	.L17:
+ 158 002a 03D80800 		lhu	a6,0(a7)
+ 159 002e 8146     		li	a3,0
+ 160              	.L18:
+ 161 0030 B307DE00 		add	a5,t3,a3
+ 162 0034 83C70700 		lbu	a5,0(a5)
+ 163 0038 B3D76740 		sra	a5,a5,t1
+ 164 003c 858B     		andi	a5,a5,1
+ 165 003e B397D700 		sll	a5,a5,a3
+ 166 0042 33E80701 		or	a6,a5,a6
+ 167 0046 4208     		slli	a6,a6,16
+ 168 0048 8506     		addi	a3,a3,1
+ 169 004a 13580801 		srli	a6,a6,16
+ 170 004e E391D6FF 		bne	a3,t4,.L18
+ 171 0052 23900801 		sh	a6,0(a7)
+ 172 0056 7D13     		addi	t1,t1,-1
+GAS LISTING /tmp/cc4YUtnu.s 			page 4
+
+
+ 173 0058 8908     		addi	a7,a7,2
+ 174 005a E318E3FD 		bne	t1,t5,.L17
+ 175 005e 93164700 		slli	a3,a4,4
+ 176 0062 B296     		add	a3,a2,a3
+ 177 0064 8147     		li	a5,0
+ 178              	.L20:
+ 179 0066 B388F200 		add	a7,t0,a5
+ 180 006a 83D80800 		lhu	a7,0(a7)
+ 181 006e 3388F600 		add	a6,a3,a5
+ 182 0072 8907     		addi	a5,a5,2
+ 183 0074 23101801 		sh	a7,0(a6)
+ 184 0078 E397F7FF 		bne	a5,t6,.L20
+ 185 007c 0507     		addi	a4,a4,1
+ 186 007e E34CB7F8 		bgt	a1,a4,.L21
+ 187 0082 4101     		addi	sp,sp,16
+ 188 0084 8280     		jr	ra
+ 190              		.section	.text.chunk2bm,"ax",@progbits
+ 191              		.align	1
+ 192              		.globl	chunk2bm
+ 194              	chunk2bm:
+ 195 0000 1042     		lw	a2,0(a2)
+ 196 0002 17030000 		tail	chunk2buffer
+ 196      67000300 
+ 198              		.section	.text.chunk2newbm,"ax",@progbits
+ 199              		.align	1
+ 200              		.globl	chunk2newbm
+ 202              	chunk2newbm:
+ 203 0000 0111     		addi	sp,sp,-32
+ 204 0002 26CA     		sw	s1,20(sp)
+ 205 0004 AD47     		li	a5,11
+ 206 0006 AA84     		mv	s1,a0
+ 207 0008 13953500 		slli	a0,a1,3
+ 208 000c 3345F502 		div	a0,a0,a5
+ 209 0010 06CE     		sw	ra,28(sp)
+ 210 0012 22CC     		sw	s0,24(sp)
+ 211 0014 2EC6     		sw	a1,12(sp)
+ 212 0016 4205     		slli	a0,a0,16
+ 213 0018 4181     		srli	a0,a0,16
+ 214 001a 97000000 		call	bm_new
+ 214      E7800000 
+ 215 0022 B245     		lw	a1,12(sp)
+ 216 0024 2A84     		mv	s0,a0
+ 217 0026 2A86     		mv	a2,a0
+ 218 0028 2685     		mv	a0,s1
+ 219 002a 97000000 		call	chunk2bm
+ 219      E7800000 
+ 220 0032 2285     		mv	a0,s0
+ 221 0034 F240     		lw	ra,28(sp)
+ 222 0036 6244     		lw	s0,24(sp)
+ 223 0038 D244     		lw	s1,20(sp)
+ 224 003a 0561     		addi	sp,sp,32
+ 225 003c 8280     		jr	ra
+ 227              		.section	.text.flash2newbm,"ax",@progbits
+ 228              		.align	1
+ 229              		.globl	flash2newbm
+ 231              	flash2newbm:
+ 232 0000 1D71     		addi	sp,sp,-96
+GAS LISTING /tmp/cc4YUtnu.s 			page 5
+
+
+ 233 0002 A2CC     		sw	s0,88(sp)
+ 234 0004 AA85     		mv	a1,a0
+ 235 0006 2A84     		mv	s0,a0
+ 236 0008 2800     		addi	a0,sp,8
+ 237 000a A6CA     		sw	s1,84(sp)
+ 238 000c 86CE     		sw	ra,92(sp)
+ 239 000e 97000000 		call	data_flash2newmem
+ 239      E7800000 
+ 240 0016 8144     		li	s1,0
+ 241 0018 21C5     		beqz	a0,.L30
+ 242 001a AA85     		mv	a1,a0
+ 243 001c 2245     		lw	a0,8(sp)
+ 244 001e 97000000 		call	chunk2newbm
+ 244      E7800000 
+ 245 0026 AA84     		mv	s1,a0
+ 246 0028 6800     		addi	a0,sp,12
+ 247 002a 97000000 		call	data_get_header
+ 247      E7800000 
+ 248 0032 83472101 		lbu	a5,18(sp)
+ 249 0036 2245     		lw	a0,8(sp)
+ 250 0038 B3D78740 		sra	a5,a5,s0
+ 251 003c 858B     		andi	a5,a5,1
+ 252 003e 9CC4     		sw	a5,8(s1)
+ 253 0040 83473101 		lbu	a5,19(sp)
+ 254 0044 B3D78740 		sra	a5,a5,s0
+ 255 0048 858B     		andi	a5,a5,1
+ 256 004a DCC4     		sw	a5,12(s1)
+ 257 004c 9C08     		addi	a5,sp,80
+ 258 004e 3E94     		add	s0,a5,s0
+ 259 0050 834744FC 		lbu	a5,-60(s0)
+ 260 0054 2383F400 		sb	a5,6(s1)
+ 261 0058 97000000 		call	free
+ 261      E7800000 
+ 262              	.L30:
+ 263 0060 F640     		lw	ra,92(sp)
+ 264 0062 6644     		lw	s0,88(sp)
+ 265 0064 2685     		mv	a0,s1
+ 266 0066 D644     		lw	s1,84(sp)
+ 267 0068 2561     		addi	sp,sp,96
+ 268 006a 8280     		jr	ra
+ 270              		.section	.text.data_read_highscore,"ax",@progbits
+ 271              		.align	1
+ 272              		.globl	data_read_highscore
+ 274              	data_read_highscore:
+ 275 0000 0111     		addi	sp,sp,-32
+ 276 0002 22CC     		sw	s0,24(sp)
+ 277 0004 2164     		li	s0,32768
+ 278 0006 8946     		li	a3,2
+ 279 0008 7000     		addi	a2,sp,12
+ 280 000a 930584FF 		addi	a1,s0,-8
+ 281 000e 2D45     		li	a0,11
+ 282 0010 06CE     		sw	ra,28(sp)
+ 283 0012 97000000 		call	FLASH_EEPROM_CMD
+ 283      E7800000 
+ 284 001a 8946     		li	a3,2
+ 285 001c 1306E100 		addi	a2,sp,14
+ 286 0020 9305A4FF 		addi	a1,s0,-6
+GAS LISTING /tmp/cc4YUtnu.s 			page 6
+
+
+ 287 0024 2D45     		li	a0,11
+ 288 0026 97000000 		call	FLASH_EEPROM_CMD
+ 288      E7800000 
+ 289 002e 0357C100 		lhu	a4,12(sp)
+ 290 0032 A967     		li	a5,40960
+ 291 0034 9387A755 		addi	a5,a5,1370
+ 292 0038 0145     		li	a0,0
+ 293 003a 6314F700 		bne	a4,a5,.L35
+ 294 003e 0355E100 		lhu	a0,14(sp)
+ 295              	.L35:
+ 296 0042 F240     		lw	ra,28(sp)
+ 297 0044 6244     		lw	s0,24(sp)
+ 298 0046 0561     		addi	sp,sp,32
+ 299 0048 8280     		jr	ra
+ 301              		.section	.text.data_write_highscore,"ax",@progbits
+ 302              		.align	1
+ 303              		.globl	data_write_highscore
+ 305              	data_write_highscore:
+ 306 0000 0111     		addi	sp,sp,-32
+ 307 0002 22CC     		sw	s0,24(sp)
+ 308 0004 E977     		li	a5,-24576
+ 309 0006 2164     		li	s0,32768
+ 310 0008 9387A755 		addi	a5,a5,1370
+ 311 000c 2317A100 		sh	a0,14(sp)
+ 312 0010 930584FF 		addi	a1,s0,-8
+ 313 0014 9146     		li	a3,4
+ 314 0016 0146     		li	a2,0
+ 315 0018 2545     		li	a0,9
+ 316 001a 06CE     		sw	ra,28(sp)
+ 317 001c 2316F100 		sh	a5,12(sp)
+ 318 0020 97000000 		call	FLASH_EEPROM_CMD
+ 318      E7800000 
+ 319 0028 7000     		addi	a2,sp,12
+ 320 002a 930584FF 		addi	a1,s0,-8
+ 321 002e 9146     		li	a3,4
+ 322 0030 2945     		li	a0,10
+ 323 0032 97000000 		call	FLASH_EEPROM_CMD
+ 323      E7800000 
+ 324 003a F240     		lw	ra,28(sp)
+ 325 003c 6244     		lw	s0,24(sp)
+ 326 003e 0561     		addi	sp,sp,32
+ 327 0040 8280     		jr	ra
+ 329              		.section	.rodata.data_flash2newmem.str1.4,"aMS",@progbits,1
+ 330              		.align	2
+ 331              	.LC0:
+ 332 0000 77616E67 		.string	"wang"
+ 332      00
+ 333              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/cc4YUtnu.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 data.c
+     /tmp/cc4YUtnu.s:8      .text.bigendian16_sum:0000000000000000 bigendian16_sum
+     /tmp/cc4YUtnu.s:32     .text.data_flatSave:0000000000000000 data_flatSave
+     /tmp/cc4YUtnu.s:65     .text.data_get_header:0000000000000000 data_get_header
+     /tmp/cc4YUtnu.s:76     .text.data_flash2newmem:0000000000000000 data_flash2newmem
+     /tmp/cc4YUtnu.s:136    .text.chunk2buffer:0000000000000000 chunk2buffer
+     /tmp/cc4YUtnu.s:194    .text.chunk2bm:0000000000000000 chunk2bm
+     /tmp/cc4YUtnu.s:202    .text.chunk2newbm:0000000000000000 chunk2newbm
+     /tmp/cc4YUtnu.s:231    .text.flash2newbm:0000000000000000 flash2newbm
+     /tmp/cc4YUtnu.s:274    .text.data_read_highscore:0000000000000000 data_read_highscore
+     /tmp/cc4YUtnu.s:305    .text.data_write_highscore:0000000000000000 data_write_highscore
+     /tmp/cc4YUtnu.s:15     .text.bigendian16_sum:000000000000000e .L3
+     /tmp/cc4YUtnu.s:10     .text.bigendian16_sum:0000000000000002 .L2
+     /tmp/cc4YUtnu.s:54     .text.data_flatSave:0000000000000036 .L4
+     /tmp/cc4YUtnu.s:331    .rodata.data_flash2newmem.str1.4:0000000000000000 .LC0
+     /tmp/cc4YUtnu.s:122    .text.data_flash2newmem:000000000000008a .L9
+     /tmp/cc4YUtnu.s:145    .text.chunk2buffer:0000000000000014 .L26
+     /tmp/cc4YUtnu.s:160    .text.chunk2buffer:0000000000000030 .L18
+     /tmp/cc4YUtnu.s:157    .text.chunk2buffer:000000000000002a .L17
+     /tmp/cc4YUtnu.s:178    .text.chunk2buffer:0000000000000066 .L20
+     /tmp/cc4YUtnu.s:147    .text.chunk2buffer:0000000000000016 .L21
+     /tmp/cc4YUtnu.s:262    .text.flash2newbm:0000000000000060 .L30
+     /tmp/cc4YUtnu.s:295    .text.data_read_highscore:0000000000000042 .L35
+
+UNDEFINED SYMBOLS
+FLASH_EEPROM_CMD
+memcmp
+malloc
+bm_new
+free

@@ -1,0 +1,371 @@
+GAS LISTING /tmp/cckrAqNK.s 			page 1
+
+
+   1              		.file	"devinfo.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.read_handler,"ax",@progbits
+   5              		.align	1
+   7              	read_handler:
+   8 0000 CC41     		lw	a1,4(a1)
+   9 0002 03C81500 		lbu	a6,1(a1)
+  10 0006 83C50500 		lbu	a1,0(a1)
+  11 000a 2208     		slli	a6,a6,8
+  12 000c 3368B800 		or	a6,a6,a1
+  13 0010 F575     		li	a1,-12288
+  14 0012 9385D55D 		addi	a1,a1,1501
+  15 0016 2E98     		add	a6,a6,a1
+  16 0018 4208     		slli	a6,a6,16
+  17 001a 13580801 		srli	a6,a6,16
+  18 001e 9945     		li	a1,6
+  19 0020 63F60501 		bleu	a6,a1,.L2
+  20 0024 23900600 		sh	zero,0(a3)
+  21 0028 2945     		li	a0,10
+  22 002a 8280     		ret
+  23              	.L2:
+  24 002c 5145     		li	a0,20
+  25 002e 3305A802 		mul	a0,a6,a0
+  26 0032 37030000 		lui	t1,%hi(.LANCHOR0)
+  27 0036 93050300 		addi	a1,t1,%lo(.LANCHOR0)
+  28 003a 13030300 		addi	t1,t1,%lo(.LANCHOR0)
+  29 003e AA95     		add	a1,a1,a0
+  30 0040 83A84500 		lw	a7,4(a1)
+  31 0044 1D45     		li	a0,7
+  32 0046 635C1703 		bge	a4,a7,.L7
+  33 004a 4111     		addi	sp,sp,-16
+  34 004c 06C6     		sw	ra,12(sp)
+  35 004e B388E840 		sub	a7,a7,a4
+  36 0052 63D31701 		ble	a7,a5,.L4
+  37 0056 BE88     		mv	a7,a5
+  38              	.L4:
+  39 0058 D147     		li	a5,20
+  40 005a 3308F802 		mul	a6,a6,a5
+  41 005e 3285     		mv	a0,a2
+  42 0060 23901601 		sh	a7,0(a3)
+  43 0064 4686     		mv	a2,a7
+  44 0066 1A98     		add	a6,t1,a6
+  45 0068 83250800 		lw	a1,0(a6)
+  46 006c BA95     		add	a1,a1,a4
+  47 006e 97000000 		call	tmos_memcpy
+  47      E7800000 
+  48 0076 B240     		lw	ra,12(sp)
+  49 0078 0145     		li	a0,0
+  50 007a 4101     		addi	sp,sp,16
+  51 007c 8280     		jr	ra
+  52              	.L7:
+  53 007e 8280     		ret
+  55              		.section	.text.devInfo_registerService,"ax",@progbits
+  56              		.align	1
+  57              		.globl	devInfo_registerService
+  59              	devInfo_registerService:
+GAS LISTING /tmp/cckrAqNK.s 			page 2
+
+
+  60 0000 B7060000 		lui	a3,%hi(.LANCHOR1)
+  61 0004 37050000 		lui	a0,%hi(.LANCHOR2)
+  62 0008 4111     		addi	sp,sp,-16
+  63 000a 93860600 		addi	a3,a3,%lo(.LANCHOR1)
+  64 000e 4146     		li	a2,16
+  65 0010 BD45     		li	a1,15
+  66 0012 13050500 		addi	a0,a0,%lo(.LANCHOR2)
+  67 0016 06C6     		sw	ra,12(sp)
+  68 0018 97000000 		call	GATTServApp_RegisterService
+  68      E7800000 
+  69 0020 B240     		lw	ra,12(sp)
+  70 0022 4101     		addi	sp,sp,16
+  71 0024 8280     		jr	ra
+  73              		.globl	devInfoCBs
+  74              		.globl	service_UUID
+  75              		.globl	mfr_name_UUID
+  76              		.globl	softwareRev_UUID
+  77              		.globl	hardwareRev_UUID
+  78              		.globl	firmwareRev_UUID
+  79              		.globl	serialNumber_UUID
+  80              		.section	.data.attr_table.2814,"aw"
+  81              		.align	2
+  82              		.set	.LANCHOR2,. + 0
+  85              	attr_table.2814:
+  86 0000 02       		.byte	2
+  87 0001 000000   		.zero	3
+  88 0004 00000000 		.word	primaryServiceUUID
+  89 0008 01       		.byte	1
+  90 0009 00       		.zero	1
+  91 000a 0000     		.half	0
+  92 000c 00000000 		.word	service
+  93 0010 02       		.byte	2
+  94 0011 000000   		.zero	3
+  95 0014 00000000 		.word	characterUUID
+  96 0018 01       		.byte	1
+  97 0019 00       		.zero	1
+  98 001a 0000     		.half	0
+  99 001c 00000000 		.word	dev_info+8
+ 100 0020 02       		.byte	2
+ 101 0021 000000   		.zero	3
+ 102 0024 00000000 		.word	systemId_UUID
+ 103 0028 01       		.byte	1
+ 104 0029 00       		.zero	1
+ 105 002a 0000     		.half	0
+ 106 002c 00000000 		.word	systemId_val
+ 107 0030 02       		.byte	2
+ 108 0031 000000   		.zero	3
+ 109 0034 00000000 		.word	characterUUID
+ 110 0038 01       		.byte	1
+ 111 0039 00       		.zero	1
+ 112 003a 0000     		.half	0
+ 113 003c 00000000 		.word	dev_info+28
+ 114 0040 02       		.byte	2
+ 115 0041 000000   		.zero	3
+ 116 0044 00000000 		.word	modelNumber_UUID
+ 117 0048 01       		.byte	1
+ 118 0049 00       		.zero	1
+GAS LISTING /tmp/cckrAqNK.s 			page 3
+
+
+ 119 004a 0000     		.half	0
+ 120 004c 00000000 		.word	modelNumber_val
+ 121 0050 02       		.byte	2
+ 122 0051 000000   		.zero	3
+ 123 0054 00000000 		.word	characterUUID
+ 124 0058 01       		.byte	1
+ 125 0059 00       		.zero	1
+ 126 005a 0000     		.half	0
+ 127 005c 00000000 		.word	dev_info+48
+ 128 0060 02       		.byte	2
+ 129 0061 000000   		.zero	3
+ 130 0064 00000000 		.word	serialNumber_UUID
+ 131 0068 01       		.byte	1
+ 132 0069 00       		.zero	1
+ 133 006a 0000     		.half	0
+ 134 006c 00000000 		.word	serialNumber_val
+ 135 0070 02       		.byte	2
+ 136 0071 000000   		.zero	3
+ 137 0074 00000000 		.word	characterUUID
+ 138 0078 01       		.byte	1
+ 139 0079 00       		.zero	1
+ 140 007a 0000     		.half	0
+ 141 007c 00000000 		.word	dev_info+68
+ 142 0080 02       		.byte	2
+ 143 0081 000000   		.zero	3
+ 144 0084 00000000 		.word	firmwareRev_UUID
+ 145 0088 01       		.byte	1
+ 146 0089 00       		.zero	1
+ 147 008a 0000     		.half	0
+ 148 008c 00000000 		.word	firmwareRev_val
+ 149 0090 02       		.byte	2
+ 150 0091 000000   		.zero	3
+ 151 0094 00000000 		.word	characterUUID
+ 152 0098 01       		.byte	1
+ 153 0099 00       		.zero	1
+ 154 009a 0000     		.half	0
+ 155 009c 00000000 		.word	dev_info+88
+ 156 00a0 02       		.byte	2
+ 157 00a1 000000   		.zero	3
+ 158 00a4 00000000 		.word	hardwareRev_UUID
+ 159 00a8 01       		.byte	1
+ 160 00a9 00       		.zero	1
+ 161 00aa 0000     		.half	0
+ 162 00ac 00000000 		.word	hardwareRev_val
+ 163 00b0 02       		.byte	2
+ 164 00b1 000000   		.zero	3
+ 165 00b4 00000000 		.word	characterUUID
+ 166 00b8 01       		.byte	1
+ 167 00b9 00       		.zero	1
+ 168 00ba 0000     		.half	0
+ 169 00bc 00000000 		.word	dev_info+108
+ 170 00c0 02       		.byte	2
+ 171 00c1 000000   		.zero	3
+ 172 00c4 00000000 		.word	softwareRev_UUID
+ 173 00c8 01       		.byte	1
+ 174 00c9 00       		.zero	1
+ 175 00ca 0000     		.half	0
+GAS LISTING /tmp/cckrAqNK.s 			page 4
+
+
+ 176 00cc 00000000 		.word	softwareRev_val
+ 177 00d0 02       		.byte	2
+ 178 00d1 000000   		.zero	3
+ 179 00d4 00000000 		.word	characterUUID
+ 180 00d8 01       		.byte	1
+ 181 00d9 00       		.zero	1
+ 182 00da 0000     		.half	0
+ 183 00dc 00000000 		.word	dev_info+128
+ 184 00e0 02       		.byte	2
+ 185 00e1 000000   		.zero	3
+ 186 00e4 00000000 		.word	mfr_name_UUID
+ 187 00e8 01       		.byte	1
+ 188 00e9 00       		.zero	1
+ 189 00ea 0000     		.half	0
+ 190 00ec 00000000 		.word	mfr_name_val
+ 191              		.section	.data.devInfoCBs,"aw"
+ 192              		.align	2
+ 193              		.set	.LANCHOR1,. + 0
+ 196              	devInfoCBs:
+ 197 0000 00000000 		.word	read_handler
+ 198 0004 00000000 		.word	0
+ 199 0008 00000000 		.word	0
+ 200              		.section	.rodata.dev_info,"a"
+ 201              		.align	2
+ 202              		.set	.LANCHOR0,. + 0
+ 205              	dev_info:
+ 206 0000 00000000 		.word	systemId_val
+ 207 0004 08000000 		.word	8
+ 208 0008 02       		.byte	2
+ 209 0009 000000   		.zero	3
+ 210 000c 00000000 		.word	systemId_UUID
+ 211 0010 02000000 		.word	2
+ 212 0014 00000000 		.word	modelNumber_val
+ 213 0018 06000000 		.word	6
+ 214 001c 02       		.byte	2
+ 215 001d 000000   		.zero	3
+ 216 0020 00000000 		.word	modelNumber_UUID
+ 217 0024 02000000 		.word	2
+ 218 0028 00000000 		.word	serialNumber_val
+ 219 002c 03000000 		.word	3
+ 220 0030 02       		.byte	2
+ 221 0031 000000   		.zero	3
+ 222 0034 00000000 		.word	serialNumber_UUID
+ 223 0038 02000000 		.word	2
+ 224 003c 00000000 		.word	firmwareRev_val
+ 225 0040 14000000 		.word	20
+ 226 0044 02       		.byte	2
+ 227 0045 000000   		.zero	3
+ 228 0048 00000000 		.word	firmwareRev_UUID
+ 229 004c 02000000 		.word	2
+ 230 0050 00000000 		.word	hardwareRev_val
+ 231 0054 04000000 		.word	4
+ 232 0058 02       		.byte	2
+ 233 0059 000000   		.zero	3
+ 234 005c 00000000 		.word	hardwareRev_UUID
+ 235 0060 02000000 		.word	2
+ 236 0064 00000000 		.word	softwareRev_val
+GAS LISTING /tmp/cckrAqNK.s 			page 5
+
+
+ 237 0068 03000000 		.word	3
+ 238 006c 02       		.byte	2
+ 239 006d 000000   		.zero	3
+ 240 0070 00000000 		.word	softwareRev_UUID
+ 241 0074 02000000 		.word	2
+ 242 0078 00000000 		.word	mfr_name_val
+ 243 007c 08000000 		.word	8
+ 244 0080 02       		.byte	2
+ 245 0081 000000   		.zero	3
+ 246 0084 00000000 		.word	mfr_name_UUID
+ 247 0088 02000000 		.word	2
+ 248              		.section	.rodata.firmwareRev_val,"a"
+ 249              		.align	2
+ 252              	firmwareRev_val:
+ 253 0000 7072652D 		.string	"pre-2-g7316f3e-dirty"
+ 253      322D6737 
+ 253      33313666 
+ 253      33652D64 
+ 253      69727479 
+ 254              		.section	.rodata.mfr_name_val,"a"
+ 255              		.align	2
+ 258              	mfr_name_val:
+ 259 0000 464F5353 		.string	"FOSSASIA"
+ 259      41534941 
+ 259      00
+ 260              		.section	.sdata.mfr_name_UUID,"aw"
+ 261              		.align	1
+ 264              	mfr_name_UUID:
+ 265 0000 292A     		.half	10793
+ 266              		.section	.sdata2.firmwareRev_UUID,"a"
+ 267              		.align	1
+ 270              	firmwareRev_UUID:
+ 271 0000 262A     		.half	10790
+ 272              		.section	.sdata2.hardwareRev_UUID,"a"
+ 273              		.align	1
+ 276              	hardwareRev_UUID:
+ 277 0000 272A     		.half	10791
+ 278              		.section	.sdata2.hardwareRev_val,"a"
+ 279              		.align	2
+ 282              	hardwareRev_val:
+ 283 0000 52455633 		.string	"REV3"
+ 283      00
+ 284              		.section	.sdata2.modelNumber_UUID,"a"
+ 285              		.align	1
+ 288              	modelNumber_UUID:
+ 289 0000 242A     		.half	10788
+ 290              		.section	.sdata2.modelNumber_val,"a"
+ 291              		.align	2
+ 294              	modelNumber_val:
+ 295 0000 424D3131 		.string	"BM1144"
+ 295      343400
+ 296              		.section	.sdata2.serialNumber_UUID,"a"
+ 297              		.align	1
+ 300              	serialNumber_UUID:
+ 301 0000 252A     		.half	10789
+ 302              		.section	.sdata2.serialNumber_val,"a"
+ 303              		.align	2
+GAS LISTING /tmp/cckrAqNK.s 			page 6
+
+
+ 306              	serialNumber_val:
+ 307 0000 4E2F4100 		.string	"N/A"
+ 308              		.section	.sdata2.service,"a"
+ 309              		.align	2
+ 312              	service:
+ 313 0000 02       		.byte	2
+ 314 0001 000000   		.zero	3
+ 315 0004 00000000 		.word	service_UUID
+ 316              		.section	.sdata2.service_UUID,"a"
+ 317              		.align	1
+ 320              	service_UUID:
+ 321 0000 0A18     		.half	6154
+ 322              		.section	.sdata2.softwareRev_UUID,"a"
+ 323              		.align	1
+ 326              	softwareRev_UUID:
+ 327 0000 282A     		.half	10792
+ 328              		.section	.sdata2.softwareRev_val,"a"
+ 329              		.align	2
+ 332              	softwareRev_val:
+ 333 0000 4E2F4100 		.string	"N/A"
+ 334              		.section	.sdata2.systemId_UUID,"a"
+ 335              		.align	1
+ 338              	systemId_UUID:
+ 339 0000 232A     		.half	10787
+ 340              		.section	.sdata2.systemId_val,"a"
+ 341              		.align	2
+ 344              	systemId_val:
+ 345 0000 00000000 		.zero	8
+ 345      00000000 
+ 346              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/cckrAqNK.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 devinfo.c
+     /tmp/cckrAqNK.s:7      .text.read_handler:0000000000000000 read_handler
+     /tmp/cckrAqNK.s:59     .text.devInfo_registerService:0000000000000000 devInfo_registerService
+     /tmp/cckrAqNK.s:196    .data.devInfoCBs:0000000000000000 devInfoCBs
+     /tmp/cckrAqNK.s:320    .sdata2.service_UUID:0000000000000000 service_UUID
+     /tmp/cckrAqNK.s:264    .sdata.mfr_name_UUID:0000000000000000 mfr_name_UUID
+     /tmp/cckrAqNK.s:326    .sdata2.softwareRev_UUID:0000000000000000 softwareRev_UUID
+     /tmp/cckrAqNK.s:276    .sdata2.hardwareRev_UUID:0000000000000000 hardwareRev_UUID
+     /tmp/cckrAqNK.s:270    .sdata2.firmwareRev_UUID:0000000000000000 firmwareRev_UUID
+     /tmp/cckrAqNK.s:300    .sdata2.serialNumber_UUID:0000000000000000 serialNumber_UUID
+     /tmp/cckrAqNK.s:82     .data.attr_table.2814:0000000000000000 .LANCHOR2
+     /tmp/cckrAqNK.s:85     .data.attr_table.2814:0000000000000000 attr_table.2814
+     /tmp/cckrAqNK.s:312    .sdata2.service:0000000000000000 service
+     /tmp/cckrAqNK.s:205    .rodata.dev_info:0000000000000000 dev_info
+     /tmp/cckrAqNK.s:338    .sdata2.systemId_UUID:0000000000000000 systemId_UUID
+     /tmp/cckrAqNK.s:344    .sdata2.systemId_val:0000000000000000 systemId_val
+     /tmp/cckrAqNK.s:288    .sdata2.modelNumber_UUID:0000000000000000 modelNumber_UUID
+     /tmp/cckrAqNK.s:294    .sdata2.modelNumber_val:0000000000000000 modelNumber_val
+     /tmp/cckrAqNK.s:306    .sdata2.serialNumber_val:0000000000000000 serialNumber_val
+     /tmp/cckrAqNK.s:252    .rodata.firmwareRev_val:0000000000000000 firmwareRev_val
+     /tmp/cckrAqNK.s:282    .sdata2.hardwareRev_val:0000000000000000 hardwareRev_val
+     /tmp/cckrAqNK.s:332    .sdata2.softwareRev_val:0000000000000000 softwareRev_val
+     /tmp/cckrAqNK.s:258    .rodata.mfr_name_val:0000000000000000 mfr_name_val
+     /tmp/cckrAqNK.s:193    .data.devInfoCBs:0000000000000000 .LANCHOR1
+     /tmp/cckrAqNK.s:202    .rodata.dev_info:0000000000000000 .LANCHOR0
+     /tmp/cckrAqNK.s:23     .text.read_handler:000000000000002c .L2
+     /tmp/cckrAqNK.s:52     .text.read_handler:000000000000007e .L7
+     /tmp/cckrAqNK.s:38     .text.read_handler:0000000000000058 .L4
+
+UNDEFINED SYMBOLS
+tmos_memcpy
+GATTServApp_RegisterService
+primaryServiceUUID
+characterUUID

@@ -1,0 +1,208 @@
+GAS LISTING /tmp/ccOI4DUZ.s 			page 1
+
+
+   1              		.file	"CH58x_spi1.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.SPI1_MasterDefInit,"ax",@progbits
+   5              		.align	1
+   6              		.globl	SPI1_MasterDefInit
+   8              	SPI1_MasterDefInit:
+   9 0000 B7470040 		li	a5,1073758208
+  10 0004 1147     		li	a4,4
+  11 0006 A381E740 		sb	a4,1027(a5)
+  12 000a 0947     		li	a4,2
+  13 000c 2380E740 		sb	a4,1024(a5)
+  14 0010 13070006 		li	a4,96
+  15 0014 2380E740 		sb	a4,1024(a5)
+  16 0018 03C71740 		lbu	a4,1025(a5)
+  17 001c 13670701 		ori	a4,a4,16
+  18 0020 A380E740 		sb	a4,1025(a5)
+  19 0024 8280     		ret
+  21              		.section	.text.SPI1_CLKCfg,"ax",@progbits
+  22              		.align	1
+  23              		.globl	SPI1_CLKCfg
+  25              	SPI1_CLKCfg:
+  26 0000 8947     		li	a5,2
+  27 0002 37470040 		li	a4,1073758208
+  28 0006 631DF500 		bne	a0,a5,.L3
+  29 000a 83471740 		lbu	a5,1025(a4)
+  30 000e 93E70704 		ori	a5,a5,64
+  31              	.L5:
+  32 0012 A300F740 		sb	a5,1025(a4)
+  33 0016 B7470040 		li	a5,1073758208
+  34 001a A381A740 		sb	a0,1027(a5)
+  35 001e 8280     		ret
+  36              	.L3:
+  37 0020 83471740 		lbu	a5,1025(a4)
+  38 0024 93F7F70B 		andi	a5,a5,191
+  39 0028 EDB7     		j	.L5
+  41              		.section	.text.SPI1_DataMode,"ax",@progbits
+  42              		.align	1
+  43              		.globl	SPI1_DataMode
+  45              	SPI1_DataMode:
+  46 0000 8547     		li	a5,1
+  47 0002 6309F502 		beq	a0,a5,.L7
+  48 0006 01C9     		beqz	a0,.L8
+  49 0008 8947     		li	a5,2
+  50 000a 6302F504 		beq	a0,a5,.L9
+  51 000e 8D47     		li	a5,3
+  52 0010 6306F504 		beq	a0,a5,.L10
+  53 0014 8280     		ret
+  54              	.L8:
+  55 0016 B7470040 		li	a5,1073758208
+  56 001a 03C70740 		lbu	a4,1024(a5)
+  57 001e 1377770F 		andi	a4,a4,247
+  58              	.L14:
+  59 0022 2380E740 		sb	a4,1024(a5)
+  60 0026 03C71740 		lbu	a4,1025(a5)
+  61 002a 13670702 		ori	a4,a4,32
+  62              	.L12:
+GAS LISTING /tmp/ccOI4DUZ.s 			page 2
+
+
+  63 002e A380E740 		sb	a4,1025(a5)
+  64 0032 8280     		ret
+  65              	.L7:
+  66 0034 B7470040 		li	a5,1073758208
+  67 0038 03C70740 		lbu	a4,1024(a5)
+  68 003c 1377770F 		andi	a4,a4,247
+  69              	.L13:
+  70 0040 2380E740 		sb	a4,1024(a5)
+  71 0044 03C71740 		lbu	a4,1025(a5)
+  72 0048 1377F70D 		andi	a4,a4,223
+  73 004c CDB7     		j	.L12
+  74              	.L9:
+  75 004e B7470040 		li	a5,1073758208
+  76 0052 03C70740 		lbu	a4,1024(a5)
+  77 0056 13678700 		ori	a4,a4,8
+  78 005a E1B7     		j	.L14
+  79              	.L10:
+  80 005c B7470040 		li	a5,1073758208
+  81 0060 03C70740 		lbu	a4,1024(a5)
+  82 0064 13678700 		ori	a4,a4,8
+  83 0068 E1BF     		j	.L13
+  85              		.section	.text.SPI1_MasterSendByte,"ax",@progbits
+  86              		.align	1
+  87              		.globl	SPI1_MasterSendByte
+  89              	SPI1_MasterSendByte:
+  90 0000 B7470040 		li	a5,1073758208
+  91 0004 03C70740 		lbu	a4,1024(a5)
+  92 0008 1377F70E 		andi	a4,a4,239
+  93 000c 2380E740 		sb	a4,1024(a5)
+  94 0010 2382A740 		sb	a0,1028(a5)
+  95 0014 37470040 		li	a4,1073758208
+  96              	.L16:
+  97 0018 83476740 		lbu	a5,1030(a4)
+  98 001c 93F70704 		andi	a5,a5,64
+  99 0020 E5DF     		beqz	a5,.L16
+ 100 0022 8280     		ret
+ 102              		.section	.text.SPI1_MasterRecvByte,"ax",@progbits
+ 103              		.align	1
+ 104              		.globl	SPI1_MasterRecvByte
+ 106              	SPI1_MasterRecvByte:
+ 107 0000 B7470040 		li	a5,1073758208
+ 108 0004 03C70740 		lbu	a4,1024(a5)
+ 109 0008 1377F70E 		andi	a4,a4,239
+ 110 000c 2380E740 		sb	a4,1024(a5)
+ 111 0010 7D57     		li	a4,-1
+ 112 0012 2382E740 		sb	a4,1028(a5)
+ 113 0016 37470040 		li	a4,1073758208
+ 114              	.L20:
+ 115 001a 83476740 		lbu	a5,1030(a4)
+ 116 001e 93F70704 		andi	a5,a5,64
+ 117 0022 E5DF     		beqz	a5,.L20
+ 118 0024 03454740 		lbu	a0,1028(a4)
+ 119 0028 8280     		ret
+ 121              		.section	.text.SPI1_MasterTrans,"ax",@progbits
+ 122              		.align	1
+ 123              		.globl	SPI1_MasterTrans
+ 125              	SPI1_MasterTrans:
+GAS LISTING /tmp/ccOI4DUZ.s 			page 3
+
+
+ 126 0000 B7470040 		li	a5,1073758208
+ 127 0004 03C70740 		lbu	a4,1024(a5)
+ 128 0008 B7460040 		li	a3,1073758208
+ 129 000c 1377F70E 		andi	a4,a4,239
+ 130 0010 2380E740 		sb	a4,1024(a5)
+ 131 0014 2396B740 		sh	a1,1036(a5)
+ 132 0018 0547     		li	a4,1
+ 133 001a 2383E740 		sb	a4,1030(a5)
+ 134 001e 1D47     		li	a4,7
+ 135              	.L25:
+ 136 0020 89E9     		bnez	a1,.L26
+ 137 0022 37470040 		li	a4,1073758208
+ 138              	.L27:
+ 139 0026 83477740 		lbu	a5,1031(a4)
+ 140 002a 93F7F70F 		andi	a5,a5,0xff
+ 141 002e E5FF     		bnez	a5,.L27
+ 142 0030 8280     		ret
+ 143              	.L26:
+ 144 0032 03C67740 		lbu	a2,1031(a5)
+ 145 0036 E365C7FE 		bltu	a4,a2,.L25
+ 146 003a 03460500 		lbu	a2,0(a0)
+ 147 003e FD15     		addi	a1,a1,-1
+ 148 0040 C205     		slli	a1,a1,16
+ 149 0042 2388C640 		sb	a2,1040(a3)
+ 150 0046 0505     		addi	a0,a0,1
+ 151 0048 C181     		srli	a1,a1,16
+ 152 004a D9BF     		j	.L25
+ 154              		.section	.text.SPI1_MasterRecv,"ax",@progbits
+ 155              		.align	1
+ 156              		.globl	SPI1_MasterRecv
+ 158              	SPI1_MasterRecv:
+ 159 0000 B7470040 		li	a5,1073758208
+ 160 0004 03C70740 		lbu	a4,1024(a5)
+ 161 0008 B7460040 		li	a3,1073758208
+ 162 000c 13670701 		ori	a4,a4,16
+ 163 0010 2380E740 		sb	a4,1024(a5)
+ 164 0014 2396B740 		sh	a1,1036(a5)
+ 165 0018 0547     		li	a4,1
+ 166 001a 2383E740 		sb	a4,1030(a5)
+ 167 001e 37470040 		li	a4,1073758208
+ 168              	.L32:
+ 169 0022 91E1     		bnez	a1,.L33
+ 170 0024 8280     		ret
+ 171              	.L33:
+ 172 0026 83477740 		lbu	a5,1031(a4)
+ 173 002a 93F7F70F 		andi	a5,a5,0xff
+ 174 002e F5DB     		beqz	a5,.L32
+ 175 0030 83C70641 		lbu	a5,1040(a3)
+ 176 0034 FD15     		addi	a1,a1,-1
+ 177 0036 C205     		slli	a1,a1,16
+ 178 0038 2300F500 		sb	a5,0(a0)
+ 179 003c C181     		srli	a1,a1,16
+ 180 003e 0505     		addi	a0,a0,1
+ 181 0040 CDB7     		j	.L32
+ 183              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/ccOI4DUZ.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 CH58x_spi1.c
+     /tmp/ccOI4DUZ.s:8      .text.SPI1_MasterDefInit:0000000000000000 SPI1_MasterDefInit
+     /tmp/ccOI4DUZ.s:25     .text.SPI1_CLKCfg:0000000000000000 SPI1_CLKCfg
+     /tmp/ccOI4DUZ.s:45     .text.SPI1_DataMode:0000000000000000 SPI1_DataMode
+     /tmp/ccOI4DUZ.s:89     .text.SPI1_MasterSendByte:0000000000000000 SPI1_MasterSendByte
+     /tmp/ccOI4DUZ.s:106    .text.SPI1_MasterRecvByte:0000000000000000 SPI1_MasterRecvByte
+     /tmp/ccOI4DUZ.s:125    .text.SPI1_MasterTrans:0000000000000000 SPI1_MasterTrans
+     /tmp/ccOI4DUZ.s:158    .text.SPI1_MasterRecv:0000000000000000 SPI1_MasterRecv
+     /tmp/ccOI4DUZ.s:36     .text.SPI1_CLKCfg:0000000000000020 .L3
+     /tmp/ccOI4DUZ.s:31     .text.SPI1_CLKCfg:0000000000000012 .L5
+     /tmp/ccOI4DUZ.s:65     .text.SPI1_DataMode:0000000000000034 .L7
+     /tmp/ccOI4DUZ.s:54     .text.SPI1_DataMode:0000000000000016 .L8
+     /tmp/ccOI4DUZ.s:74     .text.SPI1_DataMode:000000000000004e .L9
+     /tmp/ccOI4DUZ.s:79     .text.SPI1_DataMode:000000000000005c .L10
+     /tmp/ccOI4DUZ.s:62     .text.SPI1_DataMode:000000000000002e .L12
+     /tmp/ccOI4DUZ.s:58     .text.SPI1_DataMode:0000000000000022 .L14
+     /tmp/ccOI4DUZ.s:69     .text.SPI1_DataMode:0000000000000040 .L13
+     /tmp/ccOI4DUZ.s:96     .text.SPI1_MasterSendByte:0000000000000018 .L16
+     /tmp/ccOI4DUZ.s:114    .text.SPI1_MasterRecvByte:000000000000001a .L20
+     /tmp/ccOI4DUZ.s:143    .text.SPI1_MasterTrans:0000000000000032 .L26
+     /tmp/ccOI4DUZ.s:138    .text.SPI1_MasterTrans:0000000000000026 .L27
+     /tmp/ccOI4DUZ.s:135    .text.SPI1_MasterTrans:0000000000000020 .L25
+     /tmp/ccOI4DUZ.s:171    .text.SPI1_MasterRecv:0000000000000026 .L33
+     /tmp/ccOI4DUZ.s:168    .text.SPI1_MasterRecv:0000000000000022 .L32
+
+NO UNDEFINED SYMBOLS

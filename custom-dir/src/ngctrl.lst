@@ -1,0 +1,410 @@
+GAS LISTING /tmp/ccDCpBgN.s 			page 1
+
+
+   1              		.file	"ngctrl.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.next_packet,"ax",@progbits
+   5              		.align	1
+   6              		.globl	next_packet
+   8              	next_packet:
+   9 0000 0145     		li	a0,0
+  10 0002 8280     		ret
+  12              		.section	.text.cfg_reset_rx,"ax",@progbits
+  13              		.align	1
+  15              	cfg_reset_rx:
+  16 0000 83470500 		lbu	a5,0(a0)
+  17 0004 37070000 		lui	a4,%hi(badge_cfg+293)
+  18 0008 B337F000 		snez	a5,a5
+  19 000c A302F712 		sb	a5,%lo(badge_cfg+293)(a4)
+  20 0010 8280     		ret
+  22              		.section	.text.power_setting,"ax",@progbits
+  23              		.align	1
+  24              		.globl	power_setting
+  26              	power_setting:
+  27 0000 A1C9     		beqz	a1,.L5
+  28 0002 B7070000 		lui	a5,%hi(__poweroff)
+  29 0006 0111     		addi	sp,sp,-32
+  30 0008 93870700 		addi	a5,a5,%lo(__poweroff)
+  31 000c 3EC2     		sw	a5,4(sp)
+  32 000e B7070000 		lui	a5,%hi(cfg_reset_rx)
+  33 0012 93870700 		addi	a5,a5,%lo(cfg_reset_rx)
+  34 0016 3EC4     		sw	a5,8(sp)
+  35 0018 B7070000 		lui	a5,%hi(__reset)
+  36 001c 93870700 		addi	a5,a5,%lo(__reset)
+  37 0020 06CE     		sw	ra,28(sp)
+  38 0022 3EC6     		sw	a5,12(sp)
+  39 0024 83470500 		lbu	a5,0(a0)
+  40 0028 8946     		li	a3,2
+  41 002a 1307F00F 		li	a4,255
+  42 002e 63EDF600 		bgtu	a5,a3,.L4
+  43 0032 1808     		addi	a4,sp,16
+  44 0034 8A07     		slli	a5,a5,2
+  45 0036 BA97     		add	a5,a4,a5
+  46 0038 FD15     		addi	a1,a1,-1
+  47 003a 83A747FF 		lw	a5,-12(a5)
+  48 003e C205     		slli	a1,a1,16
+  49 0040 C181     		srli	a1,a1,16
+  50 0042 0505     		addi	a0,a0,1
+  51 0044 8297     		jalr	a5
+  52 0046 0147     		li	a4,0
+  53              	.L4:
+  54 0048 F240     		lw	ra,28(sp)
+  55 004a 3A85     		mv	a0,a4
+  56 004c 0561     		addi	sp,sp,32
+  57 004e 8280     		jr	ra
+  58              	.L5:
+  59 0050 1307E00F 		li	a4,254
+  60 0054 3A85     		mv	a0,a4
+  61 0056 8280     		ret
+  63              		.section	.text.cfg_ble_alwayon,"ax",@progbits
+GAS LISTING /tmp/ccDCpBgN.s 			page 2
+
+
+  64              		.align	1
+  66              	cfg_ble_alwayon:
+  67 0000 83470500 		lbu	a5,0(a0)
+  68 0004 37070000 		lui	a4,%hi(badge_cfg)
+  69 0008 B337F000 		snez	a5,a5
+  70 000c 2300F700 		sb	a5,%lo(badge_cfg)(a4)
+  71 0010 8280     		ret
+  73              		.section	.text.ble_setting,"ax",@progbits
+  74              		.align	1
+  75              		.globl	ble_setting
+  77              	ble_setting:
+  78 0000 B9C1     		beqz	a1,.L14
+  79 0002 B7070000 		lui	a5,%hi(cfg_ble_alwayon)
+  80 0006 0111     		addi	sp,sp,-32
+  81 0008 93870700 		addi	a5,a5,%lo(cfg_ble_alwayon)
+  82 000c 3EC4     		sw	a5,8(sp)
+  83 000e B7070000 		lui	a5,%hi(cfg_ble_devname)
+  84 0012 93870700 		addi	a5,a5,%lo(cfg_ble_devname)
+  85 0016 06CE     		sw	ra,28(sp)
+  86 0018 3EC6     		sw	a5,12(sp)
+  87 001a 83470500 		lbu	a5,0(a0)
+  88 001e 8546     		li	a3,1
+  89 0020 1307F00F 		li	a4,255
+  90 0024 63EDF600 		bgtu	a5,a3,.L13
+  91 0028 1808     		addi	a4,sp,16
+  92 002a 8A07     		slli	a5,a5,2
+  93 002c BA97     		add	a5,a4,a5
+  94 002e FD15     		addi	a1,a1,-1
+  95 0030 83A787FF 		lw	a5,-8(a5)
+  96 0034 C205     		slli	a1,a1,16
+  97 0036 C181     		srli	a1,a1,16
+  98 0038 0505     		addi	a0,a0,1
+  99 003a 8297     		jalr	a5
+ 100 003c 0147     		li	a4,0
+ 101              	.L13:
+ 102 003e F240     		lw	ra,28(sp)
+ 103 0040 3A85     		mv	a0,a4
+ 104 0042 0561     		addi	sp,sp,32
+ 105 0044 8280     		jr	ra
+ 106              	.L14:
+ 107 0046 1307E00F 		li	a4,254
+ 108 004a 3A85     		mv	a0,a4
+ 109 004c 8280     		ret
+ 111              		.section	.text.cfg_splash_speed,"ax",@progbits
+ 112              		.align	1
+ 114              	cfg_splash_speed:
+ 115 0000 8547     		li	a5,1
+ 116 0002 63FFB700 		bleu	a1,a5,.L22
+ 117 0006 03570500 		lhu	a4,0(a0)
+ 118 000a B7070000 		lui	a5,%hi(badge_cfg)
+ 119 000e 93870700 		addi	a5,a5,%lo(badge_cfg)
+ 120 0012 A381E712 		sb	a4,291(a5)
+ 121 0016 2183     		srli	a4,a4,8
+ 122 0018 2382E712 		sb	a4,292(a5)
+ 123 001c 0145     		li	a0,0
+ 124 001e 8280     		ret
+ 125              	.L22:
+GAS LISTING /tmp/ccDCpBgN.s 			page 3
+
+
+ 126 0020 1305E00F 		li	a0,254
+ 127 0024 8280     		ret
+ 129              		.section	.text.cfg_led_brightness,"ax",@progbits
+ 130              		.align	1
+ 132              	cfg_led_brightness:
+ 133 0000 83470500 		lbu	a5,0(a0)
+ 134 0004 0D47     		li	a4,3
+ 135 0006 6368F700 		bgtu	a5,a4,.L25
+ 136 000a 37070000 		lui	a4,%hi(badge_cfg+21)
+ 137 000e A30AF700 		sb	a5,%lo(badge_cfg+21)(a4)
+ 138 0012 0145     		li	a0,0
+ 139 0014 8280     		ret
+ 140              	.L25:
+ 141 0016 1305E00F 		li	a0,254
+ 142 001a 8280     		ret
+ 144              		.section	.text.misc,"ax",@progbits
+ 145              		.align	1
+ 146              		.globl	misc
+ 148              	misc:
+ 149 0000 85CD     		beqz	a1,.L28
+ 150 0002 B7070000 		lui	a5,%hi(cfg_splash_speed)
+ 151 0006 4111     		addi	sp,sp,-16
+ 152 0008 93870700 		addi	a5,a5,%lo(cfg_splash_speed)
+ 153 000c 3EC4     		sw	a5,8(sp)
+ 154 000e B7070000 		lui	a5,%hi(cfg_led_brightness)
+ 155 0012 93870700 		addi	a5,a5,%lo(cfg_led_brightness)
+ 156 0016 3EC6     		sw	a5,12(sp)
+ 157 0018 83470500 		lbu	a5,0(a0)
+ 158 001c 0547     		li	a4,1
+ 159 001e 6360F702 		bgtu	a5,a4,.L29
+ 160 0022 1808     		addi	a4,sp,16
+ 161 0024 8A07     		slli	a5,a5,2
+ 162 0026 BA97     		add	a5,a4,a5
+ 163 0028 FD15     		addi	a1,a1,-1
+ 164 002a 03A387FF 		lw	t1,-8(a5)
+ 165 002e C205     		slli	a1,a1,16
+ 166 0030 C181     		srli	a1,a1,16
+ 167 0032 0505     		addi	a0,a0,1
+ 168 0034 4101     		addi	sp,sp,16
+ 169 0036 0283     		jr	t1
+ 170              	.L28:
+ 171 0038 1305E00F 		li	a0,254
+ 172 003c 8280     		ret
+ 173              	.L29:
+ 174 003e 1305F00F 		li	a0,255
+ 175 0042 4101     		addi	sp,sp,16
+ 176 0044 8280     		jr	ra
+ 178              		.section	.text.__reset,"ax",@progbits
+ 179              		.align	1
+ 181              	__reset:
+ 182 0000 17030000 		tail	SYS_ResetExecute
+ 182      67000300 
+ 184              		.section	.text.__poweroff,"ax",@progbits
+ 185              		.align	1
+ 187              	__poweroff:
+ 188 0000 17030000 		tail	poweroff
+ 188      67000300 
+GAS LISTING /tmp/ccDCpBgN.s 			page 4
+
+
+ 190              		.section	.text.cfg_ble_devname,"ax",@progbits
+ 191              		.align	1
+ 193              	cfg_ble_devname:
+ 194 0000 4111     		addi	sp,sp,-16
+ 195 0002 22C4     		sw	s0,8(sp)
+ 196 0004 37040000 		lui	s0,%hi(badge_cfg+1)
+ 197 0008 26C2     		sw	s1,4(sp)
+ 198 000a 4AC0     		sw	s2,0(sp)
+ 199 000c 5146     		li	a2,20
+ 200 000e 2A89     		mv	s2,a0
+ 201 0010 AE84     		mv	s1,a1
+ 202 0012 13051400 		addi	a0,s0,%lo(badge_cfg+1)
+ 203 0016 8145     		li	a1,0
+ 204 0018 06C6     		sw	ra,12(sp)
+ 205 001a 97000000 		call	tmos_memset
+ 205      E7800000 
+ 206 0022 D147     		li	a5,20
+ 207 0024 5146     		li	a2,20
+ 208 0026 63E39700 		bgtu	s1,a5,.L37
+ 209 002a 2686     		mv	a2,s1
+ 210              	.L37:
+ 211 002c 13051400 		addi	a0,s0,%lo(badge_cfg+1)
+ 212 0030 2244     		lw	s0,8(sp)
+ 213 0032 B240     		lw	ra,12(sp)
+ 214 0034 9244     		lw	s1,4(sp)
+ 215 0036 CA85     		mv	a1,s2
+ 216 0038 0249     		lw	s2,0(sp)
+ 217 003a 4206     		slli	a2,a2,16
+ 218 003c 4182     		srli	a2,a2,16
+ 219 003e 4101     		addi	sp,sp,16
+ 220 0040 17030000 		tail	tmos_memcpy
+ 220      67000300 
+ 222              		.section	.text.flash_splash_screen,"ax",@progbits
+ 223              		.align	1
+ 224              		.globl	flash_splash_screen
+ 226              	flash_splash_screen:
+ 227 0000 8947     		li	a5,2
+ 228 0002 63FAB708 		bleu	a1,a5,.L42
+ 229 0006 0111     		addi	sp,sp,-32
+ 230 0008 06CE     		sw	ra,28(sp)
+ 231 000a 22CC     		sw	s0,24(sp)
+ 232 000c 26CA     		sw	s1,20(sp)
+ 233 000e 4AC8     		sw	s2,16(sp)
+ 234 0010 4EC6     		sw	s3,12(sp)
+ 235 0012 52C4     		sw	s4,8(sp)
+ 236 0014 56C2     		sw	s5,4(sp)
+ 237 0016 83490500 		lbu	s3,0(a0)
+ 238 001a 13070003 		li	a4,48
+ 239 001e 9307F00F 		li	a5,255
+ 240 0022 63603707 		bgtu	s3,a4,.L41
+ 241 0026 03491500 		lbu	s2,1(a0)
+ 242 002a 1307C002 		li	a4,44
+ 243 002e 9307E00F 		li	a5,254
+ 244 0032 63682705 		bgtu	s2,a4,.L41
+ 245 0036 370A0000 		lui	s4,%hi(badge_cfg+24)
+ 246 003a 834A2500 		lbu	s5,2(a0)
+ 247 003e AE84     		mv	s1,a1
+GAS LISTING /tmp/ccDCpBgN.s 			page 5
+
+
+ 248 0040 2A84     		mv	s0,a0
+ 249 0042 13068010 		li	a2,264
+ 250 0046 8145     		li	a1,0
+ 251 0048 13058A01 		addi	a0,s4,%lo(badge_cfg+24)
+ 252 004c 97000000 		call	tmos_memset
+ 252      E7800000 
+ 253 0054 1386D4FF 		addi	a2,s1,-3
+ 254 0058 1376F60F 		andi	a2,a2,0xff
+ 255 005c 93053400 		addi	a1,s0,3
+ 256 0060 13058A01 		addi	a0,s4,%lo(badge_cfg+24)
+ 257 0064 97000000 		call	tmos_memcpy
+ 257      E7800000 
+ 258 006c B7070000 		lui	a5,%hi(badge_cfg)
+ 259 0070 93870700 		addi	a5,a5,%lo(badge_cfg)
+ 260 0074 23803713 		sb	s3,288(a5)
+ 261 0078 A3802713 		sb	s2,289(a5)
+ 262 007c 23815713 		sb	s5,290(a5)
+ 263 0080 8147     		li	a5,0
+ 264              	.L41:
+ 265 0082 F240     		lw	ra,28(sp)
+ 266 0084 6244     		lw	s0,24(sp)
+ 267 0086 D244     		lw	s1,20(sp)
+ 268 0088 4249     		lw	s2,16(sp)
+ 269 008a B249     		lw	s3,12(sp)
+ 270 008c 224A     		lw	s4,8(sp)
+ 271 008e 924A     		lw	s5,4(sp)
+ 272 0090 3E85     		mv	a0,a5
+ 273 0092 0561     		addi	sp,sp,32
+ 274 0094 8280     		jr	ra
+ 275              	.L42:
+ 276 0096 9307C00F 		li	a5,252
+ 277 009a 3E85     		mv	a0,a5
+ 278 009c 8280     		ret
+ 280              		.section	.text.save_cfg,"ax",@progbits
+ 281              		.align	1
+ 282              		.globl	save_cfg
+ 284              	save_cfg:
+ 285 0000 37050000 		lui	a0,%hi(badge_cfg)
+ 286 0004 4111     		addi	sp,sp,-16
+ 287 0006 13050500 		addi	a0,a0,%lo(badge_cfg)
+ 288 000a 06C6     		sw	ra,12(sp)
+ 289 000c 97000000 		call	cfg_writeflash_def
+ 289      E7800000 
+ 290 0014 B240     		lw	ra,12(sp)
+ 291 0016 1375F50F 		andi	a0,a0,0xff
+ 292 001a 4101     		addi	sp,sp,16
+ 293 001c 8280     		jr	ra
+ 295              		.section	.text.load_fallback_cfg,"ax",@progbits
+ 296              		.align	1
+ 297              		.globl	load_fallback_cfg
+ 299              	load_fallback_cfg:
+ 300 0000 37050000 		lui	a0,%hi(badge_cfg)
+ 301 0004 4111     		addi	sp,sp,-16
+ 302 0006 13050500 		addi	a0,a0,%lo(badge_cfg)
+ 303 000a 06C6     		sw	ra,12(sp)
+ 304 000c 97000000 		call	cfg_fallback
+ 304      E7800000 
+GAS LISTING /tmp/ccDCpBgN.s 			page 6
+
+
+ 305 0014 B240     		lw	ra,12(sp)
+ 306 0016 0145     		li	a0,0
+ 307 0018 4101     		addi	sp,sp,16
+ 308 001a 8280     		jr	ra
+ 310              		.section	.text.ng_parse,"ax",@progbits
+ 311              		.align	1
+ 312              		.globl	ng_parse
+ 314              	ng_parse:
+ 315 0000 B1C5     		beqz	a1,.L55
+ 316 0002 83470500 		lbu	a5,0(a0)
+ 317 0006 A146     		li	a3,8
+ 318 0008 6147     		li	a4,24
+ 319 000a 63E2F604 		bgtu	a5,a3,.L59
+ 320 000e 13972700 		slli	a4,a5,2
+ 321 0012 B7070000 		lui	a5,%hi(.LANCHOR0)
+ 322 0016 93870700 		addi	a5,a5,%lo(.LANCHOR0)
+ 323 001a BA97     		add	a5,a5,a4
+ 324 001c 9C43     		lw	a5,0(a5)
+ 325 001e 0147     		li	a4,0
+ 326 0020 9DC7     		beqz	a5,.L59
+ 327 0022 FD15     		addi	a1,a1,-1
+ 328 0024 0111     		addi	sp,sp,-32
+ 329 0026 C205     		slli	a1,a1,16
+ 330 0028 06CE     		sw	ra,28(sp)
+ 331 002a C181     		srli	a1,a1,16
+ 332 002c 0505     		addi	a0,a0,1
+ 333 002e 8297     		jalr	a5
+ 334 0030 A307A100 		sb	a0,15(sp)
+ 335 0034 8545     		li	a1,1
+ 336 0036 1305F100 		addi	a0,sp,15
+ 337 003a 97000000 		call	ng_notify
+ 337      E7800000 
+ 338 0042 F240     		lw	ra,28(sp)
+ 339 0044 0147     		li	a4,0
+ 340 0046 3A85     		mv	a0,a4
+ 341 0048 0561     		addi	sp,sp,32
+ 342 004a 8280     		jr	ra
+ 343              	.L55:
+ 344 004c 6147     		li	a4,24
+ 345              	.L59:
+ 346 004e 3A85     		mv	a0,a4
+ 347 0050 8280     		ret
+ 349              		.globl	cmd_lut
+ 350              		.section	.data.cmd_lut,"aw"
+ 351              		.align	2
+ 352              		.set	.LANCHOR0,. + 0
+ 355              	cmd_lut:
+ 356 0000 00000000 		.word	next_packet
+ 357 0004 00000000 		.word	power_setting
+ 358 0008 00000000 		.word	streaming_setting
+ 359 000c 00000000 		.word	stream_bitmap
+ 360 0010 00000000 		.word	ble_setting
+ 361 0014 00000000 		.word	flash_splash_screen
+ 362 0018 00000000 		.word	save_cfg
+ 363 001c 00000000 		.word	load_fallback_cfg
+ 364 0020 00000000 		.word	misc
+ 365              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/ccDCpBgN.s 			page 7
+
+
+GAS LISTING /tmp/ccDCpBgN.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ngctrl.c
+     /tmp/ccDCpBgN.s:8      .text.next_packet:0000000000000000 next_packet
+     /tmp/ccDCpBgN.s:15     .text.cfg_reset_rx:0000000000000000 cfg_reset_rx
+     /tmp/ccDCpBgN.s:26     .text.power_setting:0000000000000000 power_setting
+     /tmp/ccDCpBgN.s:187    .text.__poweroff:0000000000000000 __poweroff
+     /tmp/ccDCpBgN.s:181    .text.__reset:0000000000000000 __reset
+     /tmp/ccDCpBgN.s:66     .text.cfg_ble_alwayon:0000000000000000 cfg_ble_alwayon
+     /tmp/ccDCpBgN.s:77     .text.ble_setting:0000000000000000 ble_setting
+     /tmp/ccDCpBgN.s:193    .text.cfg_ble_devname:0000000000000000 cfg_ble_devname
+     /tmp/ccDCpBgN.s:114    .text.cfg_splash_speed:0000000000000000 cfg_splash_speed
+     /tmp/ccDCpBgN.s:132    .text.cfg_led_brightness:0000000000000000 cfg_led_brightness
+     /tmp/ccDCpBgN.s:148    .text.misc:0000000000000000 misc
+     /tmp/ccDCpBgN.s:226    .text.flash_splash_screen:0000000000000000 flash_splash_screen
+     /tmp/ccDCpBgN.s:284    .text.save_cfg:0000000000000000 save_cfg
+     /tmp/ccDCpBgN.s:299    .text.load_fallback_cfg:0000000000000000 load_fallback_cfg
+     /tmp/ccDCpBgN.s:314    .text.ng_parse:0000000000000000 ng_parse
+     /tmp/ccDCpBgN.s:355    .data.cmd_lut:0000000000000000 cmd_lut
+     /tmp/ccDCpBgN.s:352    .data.cmd_lut:0000000000000000 .LANCHOR0
+     /tmp/ccDCpBgN.s:58     .text.power_setting:0000000000000050 .L5
+     /tmp/ccDCpBgN.s:53     .text.power_setting:0000000000000048 .L4
+     /tmp/ccDCpBgN.s:106    .text.ble_setting:0000000000000046 .L14
+     /tmp/ccDCpBgN.s:101    .text.ble_setting:000000000000003e .L13
+     /tmp/ccDCpBgN.s:125    .text.cfg_splash_speed:0000000000000020 .L22
+     /tmp/ccDCpBgN.s:140    .text.cfg_led_brightness:0000000000000016 .L25
+     /tmp/ccDCpBgN.s:170    .text.misc:0000000000000038 .L28
+     /tmp/ccDCpBgN.s:173    .text.misc:000000000000003e .L29
+     /tmp/ccDCpBgN.s:210    .text.cfg_ble_devname:000000000000002c .L37
+     /tmp/ccDCpBgN.s:275    .text.flash_splash_screen:0000000000000096 .L42
+     /tmp/ccDCpBgN.s:264    .text.flash_splash_screen:0000000000000082 .L41
+     /tmp/ccDCpBgN.s:343    .text.ng_parse:000000000000004c .L55
+     /tmp/ccDCpBgN.s:345    .text.ng_parse:000000000000004e .L59
+
+UNDEFINED SYMBOLS
+badge_cfg
+SYS_ResetExecute
+poweroff
+tmos_memset
+tmos_memcpy
+cfg_writeflash_def
+cfg_fallback
+ng_notify
+streaming_setting
+stream_bitmap

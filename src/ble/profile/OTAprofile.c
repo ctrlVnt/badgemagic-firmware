@@ -16,6 +16,7 @@
 #include "CH58xBLE_LIB.h"
 #include "OTAprofile.h"
 #include "../ota.h"
+#include "../../legacyctrl.h"
 
 /*********************************************************************
  * MACROS
@@ -340,10 +341,15 @@ static bStatus_t OTAProfile_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pA
 
     if(OTAProfileWriteLen && OTAProfile_AppCBs && OTAProfile_AppCBs->pfnOTAProfileWrite)
     {
-        OTAProfile_AppCBs->pfnOTAProfileWrite(OTAPROFILE_CHAR, OTAProfileWriteBuf, OTAProfileWriteLen);
+        if (OTAProfileWriteBuf[0] < 0x80 || OTAProfileWriteBuf[0] > 0x84) {
+            if (legacy_ble_rx(OTAProfileWriteBuf, OTAProfileWriteLen) < 0) {
+                status = ATT_ERR_UNLIKELY;
+            }
+        } else {
+            OTAProfile_AppCBs->pfnOTAProfileWrite(OTAPROFILE_CHAR, OTAProfileWriteBuf, OTAProfileWriteLen);
+        }
         OTAProfileWriteLen = 0;
     }
-
     return (status);
 }
 

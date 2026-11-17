@@ -1,0 +1,218 @@
+GAS LISTING /tmp/cch8ZN0s.s 			page 1
+
+
+   1              		.file	"config.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.cfg_fallback,"ax",@progbits
+   5              		.align	1
+   6              		.globl	cfg_fallback
+   8              	cfg_fallback:
+   9 0000 0111     		addi	sp,sp,-32
+  10 0002 22CC     		sw	s0,24(sp)
+  11 0004 37040000 		lui	s0,%hi(badge_cfg)
+  12 0008 23000400 		sb	zero,%lo(badge_cfg)(s0)
+  13 000c B7050000 		lui	a1,%hi(.LANCHOR0)
+  14 0010 13040400 		addi	s0,s0,%lo(badge_cfg)
+  15 0014 5146     		li	a2,20
+  16 0016 93850500 		addi	a1,a1,%lo(.LANCHOR0)
+  17 001a 13051400 		addi	a0,s0,1
+  18 001e 06CE     		sw	ra,28(sp)
+  19 0020 26CA     		sw	s1,20(sp)
+  20 0022 4AC8     		sw	s2,16(sp)
+  21 0024 4EC6     		sw	s3,12(sp)
+  22 0026 97000000 		call	memcpy
+  22      E7800000 
+  23 002e 37070000 		lui	a4,%hi(splash)
+  24 0032 93040700 		addi	s1,a4,%lo(splash)
+  25 0036 930700FD 		li	a5,-48
+  26 003a 03A94400 		lw	s2,4(s1)
+  27 003e 230BF400 		sb	a5,22(s0)
+  28 0042 9D47     		li	a5,7
+  29 0044 A30BF400 		sb	a5,23(s0)
+  30 0048 F947     		li	a5,30
+  31 004a A301F412 		sb	a5,291(s0)
+  32 004e A147     		li	a5,8
+  33 0050 3366F902 		rem	a2,s2,a5
+  34 0054 83A98400 		lw	s3,8(s1)
+  35 0058 83250700 		lw	a1,%lo(splash)(a4)
+  36 005c 37050000 		lui	a0,%hi(badge_cfg+24)
+  37 0060 13058501 		addi	a0,a0,%lo(badge_cfg+24)
+  38 0064 A30A0400 		sb	zero,21(s0)
+  39 0068 23020412 		sb	zero,292(s0)
+  40 006c B347F902 		div	a5,s2,a5
+  41 0070 3326C000 		sgt	a2,a2,zero
+  42 0074 3E96     		add	a2,a2,a5
+  43 0076 33063603 		mul	a2,a2,s3
+  44 007a 97000000 		call	memcpy
+  44      E7800000 
+  45 0082 DC44     		lw	a5,12(s1)
+  46 0084 23002413 		sb	s2,288(s0)
+  47 0088 A3003413 		sb	s3,289(s0)
+  48 008c 2301F412 		sb	a5,290(s0)
+  49 0090 A3020412 		sb	zero,293(s0)
+  50 0094 23030412 		sb	zero,294(s0)
+  51 0098 F240     		lw	ra,28(sp)
+  52 009a 6244     		lw	s0,24(sp)
+  53 009c D244     		lw	s1,20(sp)
+  54 009e 4249     		lw	s2,16(sp)
+  55 00a0 B249     		lw	s3,12(sp)
+  56 00a2 0561     		addi	sp,sp,32
+GAS LISTING /tmp/cch8ZN0s.s 			page 2
+
+
+  57 00a4 8280     		jr	ra
+  59              		.section	.text.cfg_update_crc,"ax",@progbits
+  60              		.align	1
+  61              		.globl	cfg_update_crc
+  63              	cfg_update_crc:
+  64 0000 4111     		addi	sp,sp,-16
+  65 0002 93057012 		li	a1,295
+  66 0006 22C4     		sw	s0,8(sp)
+  67 0008 06C6     		sw	ra,12(sp)
+  68 000a 2A84     		mv	s0,a0
+  69 000c 97000000 		call	crc_cal
+  69      E7800000 
+  70 0014 A303A412 		sb	a0,295(s0)
+  71 0018 B240     		lw	ra,12(sp)
+  72 001a 2244     		lw	s0,8(sp)
+  73 001c 4101     		addi	sp,sp,16
+  74 001e 8280     		jr	ra
+  76              		.section	.text.cfg_writeflash,"ax",@progbits
+  77              		.align	1
+  78              		.globl	cfg_writeflash
+  80              	cfg_writeflash:
+  81 0000 13078512 		addi	a4,a0,296
+  82 0004 A167     		li	a5,32768
+  83 0006 63EBE702 		bgtu	a4,a5,.L6
+  84 000a 0111     		addi	sp,sp,-32
+  85 000c 22CC     		sw	s0,24(sp)
+  86 000e 2A84     		mv	s0,a0
+  87 0010 37050000 		lui	a0,%hi(badge_cfg)
+  88 0014 13050500 		addi	a0,a0,%lo(badge_cfg)
+  89 0018 06CE     		sw	ra,28(sp)
+  90 001a 2EC6     		sw	a1,12(sp)
+  91 001c 97000000 		call	cfg_update_crc
+  91      E7800000 
+  92 0024 A285     		mv	a1,s0
+  93 0026 6244     		lw	s0,24(sp)
+  94 0028 3246     		lw	a2,12(sp)
+  95 002a F240     		lw	ra,28(sp)
+  96 002c 93068012 		li	a3,296
+  97 0030 2945     		li	a0,10
+  98 0032 0561     		addi	sp,sp,32
+  99 0034 17030000 		tail	FLASH_EEPROM_CMD
+  99      67000300 
+ 100              	.L6:
+ 101 003c 7D55     		li	a0,-1
+ 102 003e 8280     		ret
+ 104              		.section	.text.cfg_readflash,"ax",@progbits
+ 105              		.align	1
+ 106              		.globl	cfg_readflash
+ 108              	cfg_readflash:
+ 109 0000 4111     		addi	sp,sp,-16
+ 110 0002 22C4     		sw	s0,8(sp)
+ 111 0004 2E86     		mv	a2,a1
+ 112 0006 2E84     		mv	s0,a1
+ 113 0008 93068012 		li	a3,296
+ 114 000c AA85     		mv	a1,a0
+ 115 000e 2D45     		li	a0,11
+ 116 0010 06C6     		sw	ra,12(sp)
+GAS LISTING /tmp/cch8ZN0s.s 			page 3
+
+
+ 117 0012 97000000 		call	FLASH_EEPROM_CMD
+ 117      E7800000 
+ 118 001a 01E9     		bnez	a0,.L10
+ 119 001c 93058012 		li	a1,296
+ 120 0020 2285     		mv	a0,s0
+ 121 0022 97000000 		call	crc_cal
+ 121      E7800000 
+ 122              	.L10:
+ 123 002a B240     		lw	ra,12(sp)
+ 124 002c 2244     		lw	s0,8(sp)
+ 125 002e 4101     		addi	sp,sp,16
+ 126 0030 8280     		jr	ra
+ 128              		.section	.text.cfg_readflash_def,"ax",@progbits
+ 129              		.align	1
+ 130              		.globl	cfg_readflash_def
+ 132              	cfg_readflash_def:
+ 133 0000 AA85     		mv	a1,a0
+ 134 0002 2165     		li	a0,32768
+ 135 0004 130575ED 		addi	a0,a0,-297
+ 136 0008 17030000 		tail	cfg_readflash
+ 136      67000300 
+ 138              		.section	.text.cfg_writeflash_def,"ax",@progbits
+ 139              		.align	1
+ 140              		.globl	cfg_writeflash_def
+ 142              	cfg_writeflash_def:
+ 143 0000 AA85     		mv	a1,a0
+ 144 0002 2165     		li	a0,32768
+ 145 0004 130575ED 		addi	a0,a0,-297
+ 146 0008 17030000 		tail	cfg_writeflash
+ 146      67000300 
+ 148              		.section	.text.cfg_init,"ax",@progbits
+ 149              		.align	1
+ 150              		.globl	cfg_init
+ 152              	cfg_init:
+ 153 0000 2971     		addi	sp,sp,-320
+ 154 0002 2800     		addi	a0,sp,8
+ 155 0004 232E1112 		sw	ra,316(sp)
+ 156 0008 97000000 		call	cfg_readflash_def
+ 156      E7800000 
+ 157 0010 09C9     		beqz	a0,.L16
+ 158 0012 97000000 		call	cfg_fallback
+ 158      E7800000 
+ 159              	.L15:
+ 160 001a 8320C113 		lw	ra,316(sp)
+ 161 001e 3161     		addi	sp,sp,320
+ 162 0020 8280     		jr	ra
+ 163              	.L16:
+ 164 0022 37050000 		lui	a0,%hi(badge_cfg)
+ 165 0026 13068012 		li	a2,296
+ 166 002a 2C00     		addi	a1,sp,8
+ 167 002c 13050500 		addi	a0,a0,%lo(badge_cfg)
+ 168 0030 97000000 		call	memcpy
+ 168      E7800000 
+ 169 0038 CDB7     		j	.L15
+ 171              		.comm	badge_cfg,296,4
+ 172              		.section	.rodata
+ 173              		.align	2
+GAS LISTING /tmp/cch8ZN0s.s 			page 4
+
+
+ 174              		.set	.LANCHOR0,. + 0
+ 175              	.LC0:
+ 176 0000 4C454420 		.string	"LED Badge Magic"
+ 176      42616467 
+ 176      65204D61 
+ 176      67696300 
+ 177 0010 00       		.string	""
+ 178 0011 00       		.string	""
+ 179 0012 00       		.string	""
+ 180 0013 00       		.string	""
+ 181              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/cch8ZN0s.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 config.c
+     /tmp/cch8ZN0s.s:8      .text.cfg_fallback:0000000000000000 cfg_fallback
+                            *COM*:0000000000000128 badge_cfg
+     /tmp/cch8ZN0s.s:63     .text.cfg_update_crc:0000000000000000 cfg_update_crc
+     /tmp/cch8ZN0s.s:80     .text.cfg_writeflash:0000000000000000 cfg_writeflash
+     /tmp/cch8ZN0s.s:108    .text.cfg_readflash:0000000000000000 cfg_readflash
+     /tmp/cch8ZN0s.s:132    .text.cfg_readflash_def:0000000000000000 cfg_readflash_def
+     /tmp/cch8ZN0s.s:142    .text.cfg_writeflash_def:0000000000000000 cfg_writeflash_def
+     /tmp/cch8ZN0s.s:152    .text.cfg_init:0000000000000000 cfg_init
+     /tmp/cch8ZN0s.s:174    .rodata:0000000000000000 .LANCHOR0
+     /tmp/cch8ZN0s.s:100    .text.cfg_writeflash:000000000000003c .L6
+     /tmp/cch8ZN0s.s:122    .text.cfg_readflash:000000000000002a .L10
+     /tmp/cch8ZN0s.s:163    .text.cfg_init:0000000000000022 .L16
+     /tmp/cch8ZN0s.s:159    .text.cfg_init:000000000000001a .L15
+
+UNDEFINED SYMBOLS
+memcpy
+splash
+crc_cal
+FLASH_EEPROM_CMD

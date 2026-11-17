@@ -1,0 +1,14 @@
+GAS LISTING /tmp/ccwXvniy.s 			page 1
+
+
+   1              		.file	"debug.c"
+   2              		.option nopic
+   3              		.text
+   4              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/ccwXvniy.s 			page 2
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 debug.c
+
+NO UNDEFINED SYMBOLS

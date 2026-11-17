@@ -1,0 +1,152 @@
+GAS LISTING /tmp/cc0tAVvj.s 			page 1
+
+
+   1              		.file	"batt.c"
+   2              		.option nopic
+   3              		.text
+   4              		.section	.text.read_handler,"ax",@progbits
+   5              		.align	1
+   7              	read_handler:
+   8 0000 D841     		lw	a4,4(a1)
+   9 0002 83471700 		lbu	a5,1(a4)
+  10 0006 03470700 		lbu	a4,0(a4)
+  11 000a A207     		slli	a5,a5,8
+  12 000c D98F     		or	a5,a5,a4
+  13 000e C207     		slli	a5,a5,16
+  14 0010 0D67     		li	a4,12288
+  15 0012 C187     		srai	a5,a5,16
+  16 0014 130797A1 		addi	a4,a4,-1511
+  17 0018 6386E700 		beq	a5,a4,.L2
+  18 001c 23900600 		sh	zero,0(a3)
+  19 0020 2945     		li	a0,10
+  20 0022 8280     		ret
+  21              	.L2:
+  22 0024 8547     		li	a5,1
+  23 0026 4111     		addi	sp,sp,-16
+  24 0028 2390F600 		sh	a5,0(a3)
+  25 002c 06C6     		sw	ra,12(sp)
+  26 002e 22C4     		sw	s0,8(sp)
+  27 0030 26C2     		sw	s1,4(sp)
+  28 0032 3684     		mv	s0,a3
+  29 0034 B284     		mv	s1,a2
+  30 0036 97000000 		call	batt_raw
+  30      E7800000 
+  31 003e 97000000 		call	batt_raw2percent
+  31      E7800000 
+  32 0046 B7050000 		lui	a1,%hi(.LANCHOR0)
+  33 004a 2380A500 		sb	a0,%lo(.LANCHOR0)(a1)
+  34 004e 03560400 		lhu	a2,0(s0)
+  35 0052 2685     		mv	a0,s1
+  36 0054 93850500 		addi	a1,a1,%lo(.LANCHOR0)
+  37 0058 97000000 		call	tmos_memcpy
+  37      E7800000 
+  38 0060 B240     		lw	ra,12(sp)
+  39 0062 2244     		lw	s0,8(sp)
+  40 0064 9244     		lw	s1,4(sp)
+  41 0066 0145     		li	a0,0
+  42 0068 4101     		addi	sp,sp,16
+  43 006a 8280     		jr	ra
+  45              		.section	.text.batt_registerService,"ax",@progbits
+  46              		.align	1
+  47              		.globl	batt_registerService
+  49              	batt_registerService:
+  50 0000 B7060000 		lui	a3,%hi(.LANCHOR1)
+  51 0004 37050000 		lui	a0,%hi(.LANCHOR2)
+  52 0008 4111     		addi	sp,sp,-16
+  53 000a 93860600 		addi	a3,a3,%lo(.LANCHOR1)
+  54 000e 4146     		li	a2,16
+  55 0010 8D45     		li	a1,3
+  56 0012 13050500 		addi	a0,a0,%lo(.LANCHOR2)
+  57 0016 06C6     		sw	ra,12(sp)
+GAS LISTING /tmp/cc0tAVvj.s 			page 2
+
+
+  58 0018 97000000 		call	GATTServApp_RegisterService
+  58      E7800000 
+  59 0020 B240     		lw	ra,12(sp)
+  60 0022 4101     		addi	sp,sp,16
+  61 0024 8280     		jr	ra
+  63              		.section	.data.attr_table,"aw"
+  64              		.align	2
+  65              		.set	.LANCHOR2,. + 0
+  68              	attr_table:
+  69 0000 02       		.byte	2
+  70 0001 000000   		.zero	3
+  71 0004 00000000 		.word	primaryServiceUUID
+  72 0008 01       		.byte	1
+  73 0009 00       		.zero	1
+  74 000a 0000     		.half	0
+  75 000c 00000000 		.word	service
+  76 0010 02       		.byte	2
+  77 0011 000000   		.zero	3
+  78 0014 00000000 		.word	characterUUID
+  79 0018 01       		.byte	1
+  80 0019 00       		.zero	1
+  81 001a 0000     		.half	0
+  82 001c 00000000 		.word	battLv_CharProps
+  83 0020 02       		.byte	2
+  84 0021 000000   		.zero	3
+  85 0024 00000000 		.word	battLv_CharUUID
+  86 0028 01       		.byte	1
+  87 0029 00       		.zero	1
+  88 002a 0000     		.half	0
+  89 002c 00000000 		.word	battLv_Val
+  90              		.section	.data.service_handlers,"aw"
+  91              		.align	2
+  92              		.set	.LANCHOR1,. + 0
+  95              	service_handlers:
+  96 0000 00000000 		.word	read_handler
+  97 0004 00000000 		.word	0
+  98 0008 00000000 		.word	0
+  99              		.section	.sbss.battLv_Val,"aw",@nobits
+ 100              		.align	2
+ 101              		.set	.LANCHOR0,. + 0
+ 104              	battLv_Val:
+ 105 0000 00       		.zero	1
+ 106              		.section	.sdata.battLv_CharProps,"aw"
+ 109              	battLv_CharProps:
+ 110 0000 02       		.byte	2
+ 111              		.section	.sdata2.ServiceUUID,"a"
+ 112              		.align	1
+ 115              	ServiceUUID:
+ 116 0000 0F18     		.half	6159
+ 117              		.section	.sdata2.battLv_CharUUID,"a"
+ 118              		.align	1
+ 121              	battLv_CharUUID:
+ 122 0000 192A     		.half	10777
+ 123              		.section	.sdata2.service,"a"
+ 124              		.align	2
+ 127              	service:
+ 128 0000 02       		.byte	2
+GAS LISTING /tmp/cc0tAVvj.s 			page 3
+
+
+ 129 0001 000000   		.zero	3
+ 130 0004 00000000 		.word	ServiceUUID
+ 131              		.ident	"GCC: (xPack GNU RISC-V Embedded GCC, 64-bit) 8.2.0"
+GAS LISTING /tmp/cc0tAVvj.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 batt.c
+     /tmp/cc0tAVvj.s:7      .text.read_handler:0000000000000000 read_handler
+     /tmp/cc0tAVvj.s:49     .text.batt_registerService:0000000000000000 batt_registerService
+     /tmp/cc0tAVvj.s:65     .data.attr_table:0000000000000000 .LANCHOR2
+     /tmp/cc0tAVvj.s:68     .data.attr_table:0000000000000000 attr_table
+     /tmp/cc0tAVvj.s:127    .sdata2.service:0000000000000000 service
+     /tmp/cc0tAVvj.s:109    .sdata.battLv_CharProps:0000000000000000 battLv_CharProps
+     /tmp/cc0tAVvj.s:121    .sdata2.battLv_CharUUID:0000000000000000 battLv_CharUUID
+     /tmp/cc0tAVvj.s:104    .sbss.battLv_Val:0000000000000000 battLv_Val
+     /tmp/cc0tAVvj.s:92     .data.service_handlers:0000000000000000 .LANCHOR1
+     /tmp/cc0tAVvj.s:95     .data.service_handlers:0000000000000000 service_handlers
+     /tmp/cc0tAVvj.s:101    .sbss.battLv_Val:0000000000000000 .LANCHOR0
+     /tmp/cc0tAVvj.s:115    .sdata2.ServiceUUID:0000000000000000 ServiceUUID
+     /tmp/cc0tAVvj.s:21     .text.read_handler:0000000000000024 .L2
+
+UNDEFINED SYMBOLS
+batt_raw
+batt_raw2percent
+tmos_memcpy
+GATTServApp_RegisterService
+primaryServiceUUID
+characterUUID

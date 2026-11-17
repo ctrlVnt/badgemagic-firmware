@@ -105,19 +105,21 @@ enum MODES {
 };
 
 static int menu_cursor=0;
-#define MENU_ITEMS_COUNT 5
+#define MENU_ITEMS_COUNT 6
 static const char *menu_labels[] = {
 	"ANIMATION",
 	"BT-PAIRING",
 	"CLOCK MODE",
 	"GAMES",
+	"SECURITY",
 	"OFF"
 };
 #define MENU_IDX_ANIMATION 0
 #define MENU_IDX_BLE       1
 #define MENU_IDX_CLOCK     2
 #define MENU_IDX_GAMES     3
-#define MENU_IDX_OFF       4
+#define MENU_IDX_SECURITY  4
+#define MENU_IDX_OFF       5
 
 #define ANI_BASE_SPEED_T      (200000) // uS
 #define ANI_MARQUE_SPEED_T    (100000) // uS
@@ -342,7 +344,7 @@ static void spawn_tasks()
 	tmos_start_task(common_taskid, ANI_NEXT_STEP, 500000 / 625);
 }
 
-static void start_ble_animation()
+void start_ble_animation()
 {
 	tmos_stop_task(common_taskid, ANI_NEXT_STEP);
 	tmos_stop_task(common_taskid, ANI_MARQUE);
@@ -559,43 +561,50 @@ static void menu_select(){
             btn_onOnePress(KEY2, bm_transition);
             mode_setup_normal();
             break;
+
         case MENU_IDX_BLE:
             mode = DOWNLOAD;
             btn_onOnePress(KEY2, NULL);
             btn_onLongPress(KEY1, NULL);
             btn_onLongPress(KEY2, return_to_menu);
-            
-            // Se la sicurezza PIN è disabilitata, autorizza subito la sessione
-            if (!badge_cfg.ble_security) {
-                legacy_bypass_auth();
-            }
-            
             ble_enable_advertise();
-            start_ble_animation();
+
+            if (badge_cfg.ble_security) {
+                uint16_t pin = 1000 + (R32_TMR0_COUNT % 9000);
+                legacy_set_auth_code(pin);
+                stop_all_animation();
+                disp_auth_code(pin);
 #if HW_KEY_COUNT == 4
-            auxbtn_onOnePress(KEY4, return_to_menu);
+                auxbtn_onOnePress(KEY4, bt_pairing_bypass);
 #else
-            btn_onLongPress(KEY1, return_to_menu);
+                btn_onLongPress(KEY1, bt_pairing_bypass);
 #endif
+            } else {
+                legacy_bypass_auth();
+                start_ble_animation();
+#if HW_KEY_COUNT == 4
+                auxbtn_onOnePress(KEY4, return_to_menu);
+#else
+                btn_onLongPress(KEY1, return_to_menu);
+#endif
+            }
             break;
-		#if HW_KEY_COUNT == 4
-			auxbtn_onOnePress(KEY4, return_to_menu);
-		#else
-			btn_onLongPress(KEY1, return_to_menu);
-		#endif
-			break;
+
         case MENU_IDX_CLOCK:
             enter_clock_submenu();
             break;
+
         case MENU_IDX_GAMES:
             enter_games_submenu();
             break;
-        /*case MENU_IDX_SECURITY:
+
+        case MENU_IDX_SECURITY:
             enter_security_submenu();
-            break; */
+            break;
+
         case MENU_IDX_OFF:
             mode = POWER_OFF;
-			 stop_all_animation();
+            stop_all_animation();
             while (isPressed(KEY1))
                 DelayMs(10);
             DelayMs(50);

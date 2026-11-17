@@ -7,6 +7,8 @@
 #include "usb/usb.h"
 #include "config.h"
 
+extern void start_ble_animation(void);
+
 static uint16_t auth_code = 0;
 static uint8_t  authorized = 0;
 
@@ -42,36 +44,36 @@ int legacy_ble_rx(uint8_t *val, uint16_t len)
             return -4;
         }
 
-		if (len >= 4
-			&& val[0] >= '0' && val[0] <= '9'
-			&& val[1] >= '0' && val[1] <= '9'
-			&& val[2] >= '0' && val[2] <= '9'
-			&& val[3] >= '0' && val[3] <= '9')
-		{
-			uint16_t attempt = (val[0] - '0') * 1000
-			                 + (val[1] - '0') * 100
-			                 + (val[2] - '0') * 10
-			                 + (val[3] - '0');
+        if (len >= 4 &&
+            val[0] >= '0' && val[0] <= '9' &&
+            val[1] >= '0' && val[1] <= '9' &&
+            val[2] >= '0' && val[2] <= '9' &&
+            val[3] >= '0' && val[3] <= '9')
+        {
+            uint16_t attempt = (val[0] - '0') * 1000
+                             + (val[1] - '0') * 100
+                             + (val[2] - '0') * 10
+                             + (val[3] - '0');
+            if (attempt == auth_code) {
+                authorized = 1;
+                start_ble_animation();
+                char buf[32];
+                int blen = snprintf(buf, sizeof(buf), "BLE: auth OK\n");
+                cdc_tx_poll((uint8_t *)buf, blen, 10);
+                return 0;
+            } else {
+                char buf[48];
+                int blen = snprintf(buf, sizeof(buf), "BLE: wrong code got=%04d exp=%04d\n", attempt, auth_code);
+                cdc_tx_poll((uint8_t *)buf, blen, 10);
+                return -5;
+            }
+        }
 
-			if (attempt == auth_code) {
-				authorized = 1;
-				char buf[32];
-				int blen = snprintf(buf, sizeof(buf), "BLE: auth OK\n");
-				cdc_tx_poll((uint8_t *)buf, blen, 10);
-				return 0;
-			} else {
-				char buf[48];
-				int blen = snprintf(buf, sizeof(buf), "BLE: wrong code got=%04d exp=%04d\n", attempt, auth_code);
-				cdc_tx_poll((uint8_t *)buf, blen, 10);
-				return -5;
-			}
-		}
-
-		char buf[32];
-		int blen = snprintf(buf, sizeof(buf), "BLE: invalid code attempt\n");
-		cdc_tx_poll((uint8_t *)buf, blen, 10);
-		return -5;
-	}
+        char buf[32];
+        int blen = snprintf(buf, sizeof(buf), "BLE: invalid code attempt\n");
+        cdc_tx_poll((uint8_t *)buf, blen, 10);
+        return -5;
+    }
 
 	// Authorized path — log transfer progress over CDC
 	{
