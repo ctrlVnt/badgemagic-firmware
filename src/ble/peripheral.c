@@ -568,11 +568,15 @@ void OTA_IAPReadDataComplete(unsigned char index)
 }
 
 void OTA_IAPWriteData(unsigned char index, unsigned char *p_data, unsigned char w_len)
-{	
-	char buf[64];
+{
+    if (w_len > 0 && (p_data[0] < 0x80 || p_data[0] > 0x84)) {
+        legacy_ble_rx(p_data, w_len);
+        return;
+    }
+
+    char buf[64];
     int len = snprintf(buf, sizeof(buf), "ota write op=%02x len=%d\r\n", p_data[0], w_len);
     cdc_tx_poll((uint8_t *)buf, len, 100);
-
     tmos_memcpy((unsigned char *)&iap_rec_data, p_data, w_len);
     Rec_OTA_IAP_DataDeal();
 }

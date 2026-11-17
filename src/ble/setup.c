@@ -7,7 +7,7 @@
 
 #ifndef BLE_BUFF_LEN
 // MTU = 64 but clients should request new MTU, otherwise default will be 23
-#define BLE_BUFF_LEN (64 + 4)
+#define BLE_BUFF_LEN (247 + 4)
 #endif
 
 #ifndef BLE_TX_NUM_EVENT

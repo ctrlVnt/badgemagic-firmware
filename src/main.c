@@ -560,12 +560,24 @@ static void menu_select(){
             mode_setup_normal();
             break;
         case MENU_IDX_BLE:
-			mode = DOWNLOAD;
-			btn_onOnePress(KEY2, NULL);
-			btn_onLongPress(KEY1, NULL);
-			btn_onLongPress(KEY2, return_to_menu);
-			ble_enable_advertise();
-			start_ble_animation();
+            mode = DOWNLOAD;
+            btn_onOnePress(KEY2, NULL);
+            btn_onLongPress(KEY1, NULL);
+            btn_onLongPress(KEY2, return_to_menu);
+            
+            // Se la sicurezza PIN è disabilitata, autorizza subito la sessione
+            if (!badge_cfg.ble_security) {
+                legacy_bypass_auth();
+            }
+            
+            ble_enable_advertise();
+            start_ble_animation();
+#if HW_KEY_COUNT == 4
+            auxbtn_onOnePress(KEY4, return_to_menu);
+#else
+            btn_onLongPress(KEY1, return_to_menu);
+#endif
+            break;
 		#if HW_KEY_COUNT == 4
 			auxbtn_onOnePress(KEY4, return_to_menu);
 		#else

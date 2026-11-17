@@ -5,6 +5,7 @@
 #include "legacyctrl.h"
 #include "CH58x_common.h"
 #include "usb/usb.h"
+#include "config.h"
 
 static uint16_t auth_code = 0;
 static uint8_t  authorized = 0;
@@ -33,13 +34,13 @@ int legacy_ble_rx(uint8_t *val, uint16_t len)
 		return -1;
 	}
 
-	if (!authorized) {
-		if (!memcmp(val, "wang", 4)) {
-			char buf[32];
-			int blen = snprintf(buf, sizeof(buf), "BLE: rejected - not authed\n");
-			cdc_tx_poll((uint8_t *)buf, blen, 10);
-			return -4;
-		}
+	if (badge_cfg.ble_security && !authorized) {
+        if (!memcmp(val, "wang", 4)) {
+            char buf[32];
+            int blen = snprintf(buf, sizeof(buf), "BLE: rejected - not authed\n");
+            cdc_tx_poll((uint8_t *)buf, blen, 10);
+            return -4;
+        }
 
 		if (len >= 4
 			&& val[0] >= '0' && val[0] <= '9'

@@ -9,6 +9,10 @@
 #include "config.h"
 #include "leddrv.h"
 
+#ifndef BLE_BUFF_LEN
+#define BLE_BUFF_LEN (247 + 4)
+#endif
+
 // TODO: Some of configs can be added, just listing:
 // - Remote brighness adjusting
 // - Upload bitmap to ram
